@@ -11,17 +11,18 @@ public class Personnel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	String nom;
-	String role;
 	Integer chef;
+	String role;
+
 	public Personnel(Integer id, String name, String role,Integer chef) {
 		super();
 		this.id = id;
 		this.nom= name;
+		this.chef=chef;	
 		this.role = role;
-		this.chef=chef;
+
 	}
 	public Personnel() {
-
 	}
 	public Integer getChef() {
 		return chef;
@@ -39,7 +40,7 @@ public class Personnel {
 		return nom;
 	}
 	public void setName(String name) {
-		this.nom = name;
+		this.nom = name;  
 	}
 	public String getRole() {
 		return role;
@@ -47,6 +48,4 @@ public class Personnel {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	 
-
 }
