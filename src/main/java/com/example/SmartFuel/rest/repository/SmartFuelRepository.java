@@ -1,5 +1,7 @@
-package com.example.SmartFuel.rest;
+package com.example.SmartFuel.rest.repository;
 import org.springframework.data.repository.CrudRepository;
+
+import com.example.SmartFuel.rest.models.Personnel;
 //cafeinecash 
 // la table dis_gis : 
 //quantite=compteur_finale-compteur_actuel

@@ -1,4 +1,4 @@
-package com.example.SmartFuel.rest;
+package com.example.SmartFuel.rest.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

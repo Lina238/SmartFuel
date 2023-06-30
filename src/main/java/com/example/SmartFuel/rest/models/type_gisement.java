@@ -1,9 +1,14 @@
-package com.example.SmartFuel.rest;
+package com.example.SmartFuel.rest.models;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="type_gisement ")
@@ -13,12 +18,25 @@ public class type_gisement {
 	Integer id;
 	String type;
 	Double prix_de_vente ;
-	public type_gisement(Integer id, String type, Double prix_de_vente) {
+	@OneToMany(mappedBy="type_gisement")
+	@JsonManagedReference
+	List <gisement> gisement;
+	public type_gisement(Integer id, String type, Double prix_de_vente,List <gisement> gisement) {
 		super();
 		this.id = id;
 		this.type = type;
 		this.prix_de_vente = prix_de_vente;
+		this.gisement=gisement;
 	}
+	
+	public List<gisement> getGisement() {
+		return gisement;
+	}
+
+	public void setGisement(List<gisement> gisement) {
+		this.gisement = gisement;
+	}
+
 	public type_gisement() {
 
 	}
