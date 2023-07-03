@@ -1,4 +1,6 @@
 package com.example.SmartFuel.rest.repository;
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.example.SmartFuel.rest.models.Personnel;
@@ -11,4 +13,5 @@ import com.example.SmartFuel.rest.models.Personnel;
 //probleme auto incremental
 //SQL TRANSACTION 
 public interface SmartFuelRepository extends CrudRepository<Personnel,Integer>   {
+	Optional<Personnel> findByNom(String nom);
 }

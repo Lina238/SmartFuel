@@ -39,12 +39,25 @@ public class SmartFuelService {
 	   
    }
    public void createpersonnel( Personnel perso){
-	   SmartFuelRepository.save(perso);
+	   Optional<Personnel> existingPersonnel = SmartFuelRepository.findByNom(perso.getNom());
+	   if (existingPersonnel.isPresent()) {
+	        System.out.println("La personne existe déjà : " + perso.getNom());
+	    } else {
+	        SmartFuelRepository.save(perso);
+	    }
 	   
    }
    public void updatepersonnel( Integer id ,Personnel perso) {
-	   SmartFuelRepository.save(perso);
-	   
+	   Optional<Personnel> existingPersonnel = SmartFuelRepository.findById(id);
+	    if (existingPersonnel.isPresent()) {
+	        Personnel personnelToUpdate = existingPersonnel.get();
+	        if (!perso.getNom().equals(personnelToUpdate.getNom()) && SmartFuelRepository.findByNom(perso.getNom()).isPresent()) {
+	            throw new IllegalArgumentException("Le nom de la personne existe déjà");
+	        }
+	        SmartFuelRepository.save(personnelToUpdate);
+	    } else {
+	        throw new IllegalArgumentException("La personne avec l'ID spécifié n'existe pas");
+	    }
    }
    public void deletepersonnel( Integer id){
 	   SmartFuelRepository.deleteById(id);
@@ -56,24 +69,32 @@ public class SmartFuelService {
    public List<chef> getallchefs(){
  	   List<chef> per= new ArrayList <>();
  	  chefrepository.findAll().forEach(per::add);
- 	   return per;
- 	   
+ 	   return per; 	   
     }
     public Optional<chef> getchef( Integer id) {
- 	   return chefrepository.findById(id);
- 	   
+ 	   return chefrepository.findById(id);   
     }
     public void createchef( chef perso){
-    	chefrepository.save(perso);
- 	   
+    	  Optional<chef> existingChef = chefrepository.findByNom(perso.getNom());
+    	    if (existingChef.isPresent()) {
+    	        throw new IllegalStateException("Le chef avec le même nom existe déjà");
+    	    }
+    	    chefrepository.save(perso);
     }
     public void  updatechef( Integer id, chef perso) {
-    	chefrepository.save(perso);
- 	   
+    	   Optional<chef> existingChef = chefrepository.findById(id);
+    	    if (existingChef.isPresent()) {
+    	        chef chefToUpdate = existingChef.get();
+    	        if (!perso.getNom().equals(chefToUpdate.getNom()) && chefrepository.findByNom(perso.getNom()).isPresent()) {
+    	            throw new IllegalArgumentException("Le nom du chef existe déjà");
+    	        }
+    	        chefrepository.save(chefToUpdate);
+    	    } else {
+    	        throw new IllegalArgumentException("Le chef avec l'ID spécifié n'existe pas");
+    	    }
     }
     public void deletechef( Integer id){
-    	chefrepository.deleteById(id);
- 	   
+    	chefrepository.deleteById(id);	   
   }
   //gestion 	type_gisement
     @Autowired
@@ -82,23 +103,27 @@ public class SmartFuelService {
   	   List<type_gisement> per= new ArrayList <>();
   	 Type_gisementrepository.findAll().forEach(per::add);
   	   return per;
-  	   
      }
      public Optional<type_gisement> gettype_gisement( Integer id) {
   	   return Type_gisementrepository.findById(id);
-  	   
+  
      }
-     public void createtype_gisement( type_gisement perso){
-    	 Type_gisementrepository.save(perso);
-  	   
+     public void createtype_gisement( type_gisement gis){
+    	    Optional<type_gisement> existingType = Type_gisementrepository.findByType(gis.getType());
+    	    if (existingType.isPresent()) {
+    	        throw new IllegalArgumentException("Le type de gisement existe déjà");
+    	    }
+    	    Type_gisementrepository.save(gis);
      }
      public void  updatetype_gisement( Integer id, type_gisement  perso) {
-    	 Type_gisementrepository.save(perso);
-  	   
+    	    Optional<type_gisement> existingType = Type_gisementrepository.findByType(perso.getType());
+    	    if (existingType.isPresent() && !existingType.get().getId().equals(perso.getId())) {
+    	        throw new IllegalStateException("Le type de gisement avec le même type existe déjà");
+    	    }   	    
+    	    Type_gisementrepository.save(perso); 	   
      }
      public void deletetype_gisement( Integer id){
      	chefrepository.deleteById(id);
-  	   
    }
    //gestion role 
    @Autowired
@@ -114,13 +139,21 @@ public class SmartFuelService {
 	   
    }
    public void createrole( role role){
+	    Optional<role> existingRole = Rolerepository . findByTyperole(role.getRole_type());
+	    if (existingRole.isPresent()) {
+	        throw new IllegalArgumentException("Le rôle existe déjà");
+	    }
 	   Rolerepository.save(role);
-	   
    }
-   public void updaterole( Integer id ,role role) {
-	   Rolerepository.save(role);
-	   
-   }
+   public void updaterole(Integer id, role updatedRole) {
+	    Optional<role> existingRole = Rolerepository.findById(id);
+	    Optional<role> roleWithSameType = Rolerepository.findByTyperole(updatedRole.getRole_type());
+	    if (roleWithSameType.isPresent() && !roleWithSameType.get().getId().equals(existingRole.get().getId())) {
+	    } else {
+	        Rolerepository.save(updatedRole);
+	    }
+	}
+
    public void deleterole( Integer id){
 	   Rolerepository .deleteById(id);
 	   
@@ -139,12 +172,24 @@ public class SmartFuelService {
 	   
    }
    public void createdistributeur( distributeur distributeur){
-	   Distributeurrepository.save(distributeur);
-	   
+	    Optional<distributeur> existingDistributeur = Distributeurrepository.findByNom(distributeur.getNom());
+	    if (existingDistributeur.isPresent()) {
+	    } else {
+	        Distributeurrepository.save(distributeur);
+	    }   
    }
    public void updatedistributeur( Integer id ,distributeur dis) {
-	   Distributeurrepository.save(dis);
-	   
+	    Optional<distributeur> existingDistributeur = Distributeurrepository.findById(id);
+	    
+	    if (existingDistributeur.isPresent()) {
+	        distributeur distributeurToUpdate = existingDistributeur.get();
+	        if (!dis.getNom().equals(distributeurToUpdate.getNom()) && Distributeurrepository.findByNom(dis.getNom()).isPresent()) {
+	            throw new IllegalArgumentException("Le nom du distributeur existe déjà");
+	        }
+	        Distributeurrepository.save(distributeurToUpdate);
+	    } else {
+	        throw new IllegalArgumentException("Le distributeur avec l'ID spécifié n'existe pas");
+	    }
    }
    public void deletedistributeur( Integer id){
 	   Distributeurrepository .deleteById(id);
@@ -187,9 +232,29 @@ public class SmartFuelService {
    public Optional<mouvement_gisement> getunmouvement_gisement( Integer id) {
 	   return  mouvement_gisementrepository.findById(id);	   
    }
-   public void createmouvement_gisement(mouvement_gisement gis){
-	   mouvement_gisementrepository.save(gis);	   
-   }
+   public void createmouvement_gisement(mouvement_gisement mouvement) {
+	   if(!mouvement.getTYPE()) {
+	    distributeur_gisement distributeurGisement = mouvement.getId_gisement_distributeur();
+	    Integer idGisement = distributeurGisement.getId_gisement().getId();
+	    Optional<gisement> existingGisement = gisementrepository.findById(idGisement);
+	    if (existingGisement.isPresent()) {
+	        gisement gis = existingGisement.get();
+	        if ((gis.getQuantite_actuelle() + mouvement.getQuantite()) < gis.getCapacite_totale()) {
+	            if ((gis.getQuantite_actuelle() + mouvement.getQuantite())*0.1 <= gis.getSeuil()) {
+	                System.out.println("Quantité actuelle inférieure ou égale au seuil. Veuillez remplir le gisement.");
+	            }
+	            gis.setQuantite_actuelle(gis.getQuantite_actuelle() + mouvement.getQuantite());
+	            gisementrepository.save(gis);
+	            mouvement_gisementrepository.save(mouvement);
+	        } else {
+	            System.out.println("Quantité insuffisante dans le gisement pour effectuer la vente.");
+	        }
+	    } else {
+	        System.out.println("Gisement non trouvé.");
+	    }
+	    }
+	}
+
    public void updatemouvement_gisement( Integer id ,mouvement_gisement dis) {
 	   mouvement_gisementrepository.save(dis);	   
    }
@@ -250,11 +315,34 @@ public Optional<gisement> getungisement( Integer id) {
 	   return  gisementrepository.findById(id);	   
 }
 public void creategisement(gisement gis){
+	Double seuil = (0.1 * gis.getCapacite_totale());
+	gis.setSeuil(seuil);
+    if (gis.getQuantite_actuelle()*0.1 <= seuil) {
+        System.out.println("Quantité actuelle inférieure ou égale au seuil. Veuillez remplir le gisement.");
+    }
 	gisementrepository.save(gis);	   
 }
-public void updategisement( Integer id ,gisement dis) {
-	gisementrepository.save(dis);	   
+public void updategisement(Integer id, gisement dis) {
+    Optional<gisement> existingGisement = gisementrepository.findById(id);
+    if (existingGisement.isPresent()) {
+        gisement gis = existingGisement.get();
+        Double espaceDisponible = gis.getCapacite_totale() - gis.getQuantite_actuelle();
+        Double quantiteAMettreAJour = dis.getQuantite_actuelle() - gis.getQuantite_actuelle();;
+        if (quantiteAMettreAJour >= 0 && espaceDisponible < quantiteAMettreAJour) {
+            System.out.println("Espace insuffisant dans le gisement pour mettre à jour la quantité.");
+        } else if (quantiteAMettreAJour >= 0 &&quantiteAMettreAJour*0.1<= gis.getSeuil() ) {
+            System.out.println(" Veuillez remplir le gisement.");
+        } else {
+            gis.setQuantite_actuelle(dis.getQuantite_actuelle());
+            gisementrepository.save(gis);
+            System.out.println("Gisement mis à jour avec succès.");
+        }
+    } else {
+        System.out.println("Gisement non trouvé.");
+    }
 }
+
+
 public void deletegisement( Integer id){
 	gisementrepository.deleteById(id);	   
 }  

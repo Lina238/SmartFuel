@@ -6,5 +6,5 @@ import com.example.SmartFuel.rest.models.gisement;
 
 
 public interface gisementrepository extends  CrudRepository<gisement,Integer>{
-
+	
 }

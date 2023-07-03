@@ -2,11 +2,19 @@ package com.example.SmartFuel.rest.models;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name="table_de_vente ")
 public class table_de_vente {
@@ -17,9 +25,16 @@ Integer compteur_actuel;
 Integer compteur_final;
 Double quantite;
 Double prix_unitaire;
+@CreationTimestamp
+@Column(name = "date_de_creation")
 LocalDateTime date_de_creation;
+@UpdateTimestamp
+@Column(name = "date_de_modification")
 LocalDateTime date_de_modification;
-Integer user_opperation ;
+@ManyToOne
+@JsonBackReference 
+@JoinColumn(name = "user_opperation")
+chef user_opperation;
 public Integer getId() {
 	return id;
 }
@@ -62,15 +77,20 @@ public LocalDateTime getDate_de_modification() {
 public void setDate_de_modification(LocalDateTime date_de_modification) {
 	this.date_de_modification = date_de_modification;
 }
-public Integer getUser_opperation() {
+
+
+public chef getUser_opperation() {
 	return user_opperation;
 }
-public void setUser_opperation(Integer user_opperation) {
+public void setUser_opperation(chef user_opperation) {
 	this.user_opperation = user_opperation;
+}
+public table_de_vente() {
+
 }
 public table_de_vente(Integer id, Integer compteur_actuel, Integer compteur_final, Double quantite,
 		Double prix_unitaire, LocalDateTime date_de_creation, LocalDateTime date_de_modification,
-		Integer user_opperation) {
+		chef user_opperation) {
 	super();
 	this.id = id;
 	this.compteur_actuel = compteur_actuel;
@@ -81,7 +101,5 @@ public table_de_vente(Integer id, Integer compteur_actuel, Integer compteur_fina
 	this.date_de_modification = date_de_modification;
 	this.user_opperation = user_opperation;
 }
-public table_de_vente() {
 
-}
 }

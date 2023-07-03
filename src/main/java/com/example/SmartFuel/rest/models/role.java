@@ -1,5 +1,6 @@
 package com.example.SmartFuel.rest.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +13,8 @@ public class role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-	String type_role;
+	@Column(name = "type_role")
+	String typerole;
 	public Integer getId() {
 		return id;
 	}
@@ -20,15 +22,15 @@ public class role {
 		this.id = id;
 	}
 	public String getRole_type() {
-		return type_role;
+		return typerole;
 	}
 	public void setRole_type(String type_role) {
-		this.type_role = type_role;
+		this.typerole = type_role;
 	}
 	public role(Integer id, String type_role) {
 		super();
 		this.id = id;
-		this.type_role = type_role;
+		this.typerole = type_role;
 	}
 	public role() {
 	}
