@@ -75,12 +75,7 @@ public void setUnite_de_mesure(String unite_de_mesure) {
 	this.unite_de_mesure = unite_de_mesure;
 }
 
-public gisement getGisement() {
-	return gisement;
-}
-public void setGisement(gisement gisement) {
-	this.gisement = gisement;
-}
+
 public table_dachat(Integer id, com.example.SmartFuel.rest.models.gisement gisement, Double quantite,
 		Double prix_dachat, LocalDateTime date_de_creation, LocalDateTime date_de_modification,
 		String unite_de_mesure) {
@@ -93,7 +88,12 @@ public table_dachat(Integer id, com.example.SmartFuel.rest.models.gisement gisem
 	this.date_de_modification = date_de_modification;
 	this.unite_de_mesure = unite_de_mesure;
 }
-
+public gisement getGisement() {
+	return gisement;
+}
+public void setGisement(gisement gisement) {
+	this.gisement = gisement;
+}
 public table_dachat() {
 	
 }

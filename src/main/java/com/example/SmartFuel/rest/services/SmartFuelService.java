@@ -233,27 +233,42 @@ public class SmartFuelService {
 	   return  mouvement_gisementrepository.findById(id);	   
    }
    public void createmouvement_gisement(mouvement_gisement mouvement) {
-	   if(!mouvement.getTYPE()) {
 	    distributeur_gisement distributeurGisement = mouvement.getId_gisement_distributeur();
 	    Integer idGisement = distributeurGisement.getId_gisement().getId();
 	    Optional<gisement> existingGisement = gisementrepository.findById(idGisement);
 	    if (existingGisement.isPresent()) {
 	        gisement gis = existingGisement.get();
-	        if ((gis.getQuantite_actuelle() + mouvement.getQuantite()) < gis.getCapacite_totale()) {
-	            if ((gis.getQuantite_actuelle() + mouvement.getQuantite())*0.1 <= gis.getSeuil()) {
-	                System.out.println("Quantité actuelle inférieure ou égale au seuil. Veuillez remplir le gisement.");
+
+	        if (!mouvement.getTYPE()) {
+	            // Cas d'une vente
+	            if (gis.getQuantite_actuelle() >= mouvement.getQuantite()) {
+	                if ((gis.getQuantite_actuelle() - mouvement.getQuantite())*0.1 <= gis.getSeuil()) {
+	                    System.out.println("Quantité actuelle inférieure ou égale au seuil. Veuillez remplir le gisement.");
+	                }
+	                gis.setQuantite_actuelle(gis.getQuantite_actuelle() - mouvement.getQuantite());
+	                gisementrepository.save(gis);
+	                mouvement_gisementrepository.save(mouvement);
+	            } else {
+	                System.out.println("Quantité insuffisante dans le gisement pour effectuer la vente.");
 	            }
-	            gis.setQuantite_actuelle(gis.getQuantite_actuelle() + mouvement.getQuantite());
-	            gisementrepository.save(gis);
-	            mouvement_gisementrepository.save(mouvement);
 	        } else {
-	            System.out.println("Quantité insuffisante dans le gisement pour effectuer la vente.");
+	            // Cas d'un achat
+	            if ((gis.getQuantite_actuelle() + mouvement.getQuantite()) < gis.getCapacite_totale()) {
+	                if ((gis.getQuantite_actuelle() + mouvement.getQuantite()) * 0.1 <= gis.getSeuil()) {
+	                    System.out.println("Quantité actuelle inférieure ou égale au seuil. Veuillez remplir le gisement.");
+	                }
+	                gis.setQuantite_actuelle(gis.getQuantite_actuelle() + mouvement.getQuantite());
+	                gisementrepository.save(gis);
+	                mouvement_gisementrepository.save(mouvement);
+	            } else {
+	                System.out.println("Capacité maximale du gisement atteinte. Impossible d'effectuer l'achat.");
+	            }
 	        }
 	    } else {
 	        System.out.println("Gisement non trouvé.");
 	    }
-	    }
 	}
+
 
    public void updatemouvement_gisement( Integer id ,mouvement_gisement dis) {
 	   mouvement_gisementrepository.save(dis);	   
@@ -273,9 +288,25 @@ public class SmartFuelService {
    public Optional<table_dachat> getuntable_dachat( Integer id) {
 	   return  table_dachatrepository.findById(id);	   
    }
-   public void createtable_dachat(table_dachat gis){
-	   table_dachatrepository.save(gis);	   
-   }
+   public void createTableDachat(table_dachat tableDachat) {
+	    gisement gisement = gisementrepository.findById(tableDachat.getGisement().getId()).orElse(null);
+	    if (gisement != null) {
+	        double quantiteAcheter = tableDachat.getQuantite();
+	        double capaciteTotale = gisement.getCapacite_totale();
+	        double quantiteActuelle = gisement.getQuantite_actuelle();
+	        double quantiteLibre = capaciteTotale - quantiteActuelle;
+	        if (quantiteAcheter <= quantiteLibre && quantiteAcheter < capaciteTotale) {
+	        	table_dachatrepository.save(tableDachat);
+	            gisement.setQuantite_actuelle(quantiteActuelle + quantiteAcheter);
+	            gisementrepository.save(gisement);
+	        } else {
+	            System.out.println("La quantité à acheter dépasse la quantité libre ou la capacité totale du gisement.");
+	        }
+	    } else {
+	        System.out.println("Gisement non trouvé.");
+	    }
+	}
+
    public void updatetable_dachat( Integer id ,table_dachat dis) {
 	   table_dachatrepository.save(dis);	   
    }
@@ -323,23 +354,9 @@ public void creategisement(gisement gis){
 	gisementrepository.save(gis);	   
 }
 public void updategisement(Integer id, gisement dis) {
-    Optional<gisement> existingGisement = gisementrepository.findById(id);
-    if (existingGisement.isPresent()) {
-        gisement gis = existingGisement.get();
-        Double espaceDisponible = gis.getCapacite_totale() - gis.getQuantite_actuelle();
-        Double quantiteAMettreAJour = dis.getQuantite_actuelle() - gis.getQuantite_actuelle();;
-        if (quantiteAMettreAJour >= 0 && espaceDisponible < quantiteAMettreAJour) {
-            System.out.println("Espace insuffisant dans le gisement pour mettre à jour la quantité.");
-        } else if (quantiteAMettreAJour >= 0 &&quantiteAMettreAJour*0.1<= gis.getSeuil() ) {
-            System.out.println(" Veuillez remplir le gisement.");
-        } else {
-            gis.setQuantite_actuelle(dis.getQuantite_actuelle());
-            gisementrepository.save(gis);
+            gisementrepository.save(dis);
             System.out.println("Gisement mis à jour avec succès.");
-        }
-    } else {
-        System.out.println("Gisement non trouvé.");
-    }
+          
 }
 
 
