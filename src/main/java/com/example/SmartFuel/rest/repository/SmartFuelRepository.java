@@ -10,7 +10,6 @@ import com.example.SmartFuel.rest.models.Personnel;
  //motant=le_prix_de_vente *quantite
 //react table component(material ui)
 //chakra for table
-//probleme auto incremental
 //SQL TRANSACTION 
 public interface SmartFuelRepository extends CrudRepository<Personnel,Integer>   {
 	Optional<Personnel> findByNom(String nom);

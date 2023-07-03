@@ -25,6 +25,10 @@ Integer compteur_actuel;
 Integer compteur_final;
 Double quantite;
 Double prix_unitaire;
+@ManyToOne
+@JsonBackReference("distributeur-gisement-vente")
+@JoinColumn(name = "id_gisement_distributeur")   
+distributeur_gisement id_gisement_distributeur;
 @CreationTimestamp
 @Column(name = "date_de_creation")
 LocalDateTime date_de_creation;
@@ -88,18 +92,26 @@ public void setUser_opperation(chef user_opperation) {
 public table_de_vente() {
 
 }
+public distributeur_gisement getId_gisement_distributeur() {
+	return id_gisement_distributeur;
+}
+public void setId_gisement_distributeur(distributeur_gisement id_gisement_distributeur) {
+	this.id_gisement_distributeur = id_gisement_distributeur;
+}
 public table_de_vente(Integer id, Integer compteur_actuel, Integer compteur_final, Double quantite,
-		Double prix_unitaire, LocalDateTime date_de_creation, LocalDateTime date_de_modification,
-		chef user_opperation) {
+		Double prix_unitaire, distributeur_gisement id_gisement_distributeur, LocalDateTime date_de_creation,
+		LocalDateTime date_de_modification, chef user_opperation) {
 	super();
 	this.id = id;
 	this.compteur_actuel = compteur_actuel;
 	this.compteur_final = compteur_final;
 	this.quantite = quantite;
 	this.prix_unitaire = prix_unitaire;
+	this.id_gisement_distributeur = id_gisement_distributeur;
 	this.date_de_creation = date_de_creation;
 	this.date_de_modification = date_de_modification;
 	this.user_opperation = user_opperation;
 }
+
 
 }

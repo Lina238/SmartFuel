@@ -25,9 +25,9 @@ public class table_dachat {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 Integer id;
 @ManyToOne
-@JsonBackReference 
-@JoinColumn(name = "id_gisement")
-gisement gisement;
+@JsonBackReference("distributeur-gisement-dachat")
+@JoinColumn(name = "id_gisement_distributeur")
+distributeur_gisement id_gisement_distributeur;
 Double quantite;
 Double prix_dachat;
 @CreationTimestamp
@@ -76,23 +76,24 @@ public void setUnite_de_mesure(String unite_de_mesure) {
 }
 
 
-public table_dachat(Integer id, com.example.SmartFuel.rest.models.gisement gisement, Double quantite,
-		Double prix_dachat, LocalDateTime date_de_creation, LocalDateTime date_de_modification,
-		String unite_de_mesure) {
+
+
+public table_dachat(Integer id, distributeur_gisement id_gisement_distributeur, Double quantite, Double prix_dachat,
+		LocalDateTime date_de_creation, LocalDateTime date_de_modification, String unite_de_mesure) {
 	super();
 	this.id = id;
-	this.gisement = gisement;
+	this.id_gisement_distributeur = id_gisement_distributeur;
 	this.quantite = quantite;
 	this.prix_dachat = prix_dachat;
 	this.date_de_creation = date_de_creation;
 	this.date_de_modification = date_de_modification;
 	this.unite_de_mesure = unite_de_mesure;
 }
-public gisement getGisement() {
-	return gisement;
+public distributeur_gisement getId_gisement_distributeur() {
+	return id_gisement_distributeur;
 }
-public void setGisement(gisement gisement) {
-	this.gisement = gisement;
+public void setId_gisement_distributeur(distributeur_gisement id_gisement_distributeur) {
+	this.id_gisement_distributeur = id_gisement_distributeur;
 }
 public table_dachat() {
 	
