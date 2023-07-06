@@ -23,9 +23,9 @@ public class distributeur_gisement {
 	@OneToOne
 	@JoinColumn(name = "idgisement")   
 	gisement idgisement;
-	@OneToMany(mappedBy="id_gisement_distributeur")
-	@JsonManagedReference("distributeur-gisement-vente")
-	List <table_de_vente> table_de_vente;	
+    @OneToMany(mappedBy = "id_gisement_distributeur")
+    @JsonManagedReference("distributeur-gisement-vente")
+    private List<table_de_vente> table_de_vente;
 	@OneToMany(mappedBy="id_gisement_distributeur")
 	  @JsonManagedReference("distributeur-gisement-dachat")
 	List <table_dachat> table_dachat;	

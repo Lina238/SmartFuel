@@ -16,7 +16,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
-@Table(name="table_de_vente ")
+@Table(name="table_de_vente")
 public class table_de_vente {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,8 @@ Double quantite;
 Double prix_unitaire;
 @ManyToOne
 @JsonBackReference("distributeur-gisement-vente")
-@JoinColumn(name = "id_gisement_distributeur")   
-distributeur_gisement id_gisement_distributeur;
+@JoinColumn(name = "id_gisement_distributeur")
+private distributeur_gisement id_gisement_distributeur;
 @CreationTimestamp
 @Column(name = "date_de_creation")
 LocalDateTime date_de_creation;

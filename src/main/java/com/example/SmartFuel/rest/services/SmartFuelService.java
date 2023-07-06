@@ -306,12 +306,17 @@ public class SmartFuelService {
 	   return  table_de_venterepository.findById(id);	   
    }
    public void createtable_de_vente(table_de_vente tab){	   
-	   distributeur_gisement distributeurGisement = tab.getId_gisement_distributeur();
-	   gisement gis=  distributeurGisement.getIdgisement();
+	   distributeur_gisement distributeurGisementt  = tab.getId_gisement_distributeur();
+	   Optional<distributeur_gisement> distributeurGisementop = distributeur_gisementrepository.findById(distributeurGisementt.getId_gisement_distributeur());
+	 	    distributeur_gisement distributeurGisement = distributeurGisementop.get();
+	   	System.out.println(distributeurGisement.getIdgisement());
+	 	   gisement gis=  distributeurGisement.getIdgisement();
        if (gis.getQuantite_actuelle() >= tab.getQuantite()) {
            if ((gis.getQuantite_actuelle() - tab.getQuantite())*0.1 <= gis.getSeuil()) {
                System.out.println("Quantité actuelle inférieure ou égale au seuil. Veuillez remplir le gisement.");
+               
            }
+           else {
            gis.setQuantite_actuelle(gis.getQuantite_actuelle() - tab.getQuantite());
            mouvement_gisement mouvement = new mouvement_gisement();
            mouvement.setQuantite(tab.getQuantite());
@@ -319,7 +324,9 @@ public class SmartFuelService {
                mouvement.setId_gisement_distributeur(distributeurGisement);
            gisementrepository.save(gis);
 	   table_de_venterepository.save(tab);	   
-   }
+           }
+           }
+
        }
    public void updatetable_de_vente( Integer id ,table_de_vente dis) {
 	   table_de_venterepository.save(dis);	   

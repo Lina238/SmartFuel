@@ -11,25 +11,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
-
 @Entity
 @Table(name="table_dachat")
 public class table_dachat {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 Integer id;
+Double quantite;
+	Double prix_dachat;
 @ManyToOne
 @JsonBackReference("distributeur-gisement-dachat")
 @JoinColumn(name = "id_gisement_distributeur")
 distributeur_gisement id_gisement_distributeur;
-Double quantite;
-Double prix_dachat;
 @CreationTimestamp
 @Column(name = "date_de_creation")
 LocalDateTime date_de_creation;
@@ -43,7 +39,6 @@ public Integer getId() {
 public void setId(Integer id) {
 	this.id = id;
 }
-
 public Double getQuantite() {
 	return quantite;
 }
@@ -74,10 +69,6 @@ public String getUnite_de_mesure() {
 public void setUnite_de_mesure(String unite_de_mesure) {
 	this.unite_de_mesure = unite_de_mesure;
 }
-
-
-
-
 public table_dachat(Integer id, distributeur_gisement id_gisement_distributeur, Double quantite, Double prix_dachat,
 		LocalDateTime date_de_creation, LocalDateTime date_de_modification, String unite_de_mesure) {
 	super();
@@ -96,7 +87,5 @@ public void setId_gisement_distributeur(distributeur_gisement id_gisement_distri
 	this.id_gisement_distributeur = id_gisement_distributeur;
 }
 public table_dachat() {
-	
 }
-
 }
