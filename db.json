@@ -1,0 +1,46 @@
+{
+  "produits": [
+    {
+      "id": 1,
+      "nom": "dist A",
+      "type": "essence",
+      "unite_de_mesure": "L",
+      "prix_de_vente": "45 da"
+    },
+    {
+      "id": 2,
+      "nom": "dist B",
+      "type": "Gaz",
+      "unite_de_mesure": "m3",
+      "prix_de_vente": "50 da"
+    },
+    {
+      "nom": "dist C",
+      "type": "gaz",
+      "unite_de_mesure": "m3",
+      "prix_de_vente": "45da",
+      "id": 3
+    },
+    {
+      "nom": "Dist C",
+      "type": "gaz",
+      "unite_de_mesure": "m3",
+      "prix_de_vente": "45da",
+      "id": 4
+    },
+    {
+      "nom": "Dist D",
+      "type": "gaz",
+      "unite_de_mesure": "45",
+      "prix_de_vente": "50da",
+      "id": 5
+    },
+    {
+      "nom": "Dist Z",
+      "type": "lk",
+      "unite_de_mesure": "sqdd",
+      "prix_de_vente": "50 da",
+      "id": 6
+    }
+  ]
+}
