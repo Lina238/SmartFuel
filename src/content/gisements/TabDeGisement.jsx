@@ -4,10 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from 'antd';
 
-const URL = "http://localhost:8000/produits" ;
+const URL = "http://localhost:8000/Gisements" ;
 
 const TabDeGisement = () => {
-    const[data,setData] =useState(null)
+    const[gisData,setgisData] =useState(null)
     const navigate = useNavigate();
     
     const LoadEdit = (id) => {
@@ -18,7 +18,7 @@ const TabDeGisement = () => {
         fetch(URL).then((res) => {
             return res.json();
         }).then((resp) => {
-            setData(resp);
+            setgisData(resp);
         }).catch((err) => {
             console.log(err.message);
         })
@@ -58,26 +58,51 @@ const TabDeGisement = () => {
            <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Opérations</th>
           </tr>
     </thead>
-    <tbody  >
-         
-          {  data && data.map(
-                    item=> 
-           <tr key={item.id}>
-                                      
-           <td >  {item.nom} </td>
-           <td >  {item.capacite_totale} </td>
-           <td >  {item.seuil} </td>
-           <td >  {item.quantite_actuelle} </td>
-          <td >
-          <Button type="primary" onClick={() => { LoadEdit(item.id) }} style={{  backgroundColor :"#FFA500" ,margin:"0px 8px 0px 0px",fontWeight :"600" }} >Modifier</Button>
-          <Button type="primary" onClick={() => { Removefunction(item.id) }} style={{   backgroundColor :"#FF0000",margin:"0px 0px 0px 8px",fontWeight :"600" }} >Supprimer   </Button>                                  
-           </td>
-           </tr>
-           
-                                 
-                         )}   
-                          
-                      </tbody>
+    <tbody>
+  {gisData && gisData.length > 0 ? (
+    gisData.map((item) => (
+      <tr key={item.id}>
+        <td>{item.nom}</td>
+        <td>{item.capacite_totale}</td>
+        <td>{item.seuil}</td>
+        <td>{item.quantite_actuelle}</td>
+        <td>
+          <Button
+            type="primary"
+            onClick={() => {
+              LoadEdit(item.id);
+            }}
+            style={{
+              backgroundColor: "#FFA500",
+              margin: "0px 8px 0px 0px",
+              fontWeight: "600",
+            }}
+          >
+            Modifier
+          </Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              Removefunction(item.id);
+            }}
+            style={{
+              backgroundColor: "#FF0000",
+              margin: "0px 0px 0px 8px",
+              fontWeight: "600",
+            }}
+          >
+            Supprimer
+          </Button>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={5}>Aucune donnée disponible</td>
+    </tr>
+  )}
+</tbody>
+
                   </table>
 
            </div>

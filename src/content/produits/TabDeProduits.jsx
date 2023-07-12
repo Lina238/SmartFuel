@@ -61,10 +61,9 @@ const TabDeProduits = () => {
     </thead>
     <tbody  >
          
-          {  prodData && prodData.map(
-                    produit=> 
-           <tr key={produit.id}>
-                                      
+          {  prodData && prodData.length > 0 ? ( 
+            prodData.map((produit)=>(
+           <tr key={produit.id}>                      
            <td >  {produit.nom} </td>
            <td >  {produit.type} </td>
            <td >  {produit.unite_de_mesure} </td>
@@ -74,11 +73,13 @@ const TabDeProduits = () => {
           <Button type="primary" onClick={() => { Removefunction(produit.id) }} style={{   backgroundColor :"#FF0000",margin:"0px 0px 0px 8px",fontWeight :"600" }} >Supprimer   </Button>                                  
            </td>
            </tr>
-           
-                                 
-                         )}   
-                          
-                      </tbody>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={5}>Aucune donnée disponible</td>
+    </tr>
+  )}
+</tbody>
                   </table>
 
            </div>

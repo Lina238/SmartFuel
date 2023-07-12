@@ -1,11 +1,13 @@
 import React from 'react'
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 
-const AjoutRemplissage = () => {
-    
+const ModifRemplissage = () => {
     const URL = "http://localhost:8000/Remplissages" ;
+    const {rempid} =useParams();
+
+
 
     const[nom,setNom]=useState("");
     const[quantite,setQuantite]=useState("");
@@ -14,38 +16,51 @@ const AjoutRemplissage = () => {
     const[date_de_modification,setDate_de_modification]=useState("");
     const[prix_dachat,setPrix_dachat]=useState("");
     
-   
-    
     const navigate=useNavigate();
 
-   
+    useEffect(()=> {
+        fetch(URL+'/'+rempid).then((res)=> {
+            return res.json();
+        }).then((resp)=> {
+            setNom(resp.nom);
+            setQuantite(resp.quantite) ;
+            setUnite_de_mesure(resp.unite_de_mesure);
+            setDate_de_creation(resp.date_de_creation);
+            setDate_de_modification(resp.date_de_modification);
+            setPrix_dachat(resp.prix_dachat);
+        }).catch((err)=> {
+            console.log(err.message)
+        })
+    },[]);
+    
 
     const handlesubmit=(e)=>{
-      e.preventDefault();
-      const rempData={nom,quantite,unite_de_mesure,date_de_creation,date_de_modification,prix_dachat};
-      
+        e.preventDefault();
+        const rempData={nom,quantite,unite_de_mesure,date_de_creation,date_de_modification,prix_dachat};
+        
+  
+        fetch(URL+"/"+rempid,{
+          method:"PUT",
+          headers:{"content-type":"application/json"},
+          body:JSON.stringify(rempData)
+        }).then((res)=>{
+          alert("Modifié avec succès")
+          navigate('/Home');
+        }).catch((err)=>{
+          console.log(err.message)
+        })
+      }
 
-      fetch(URL,{
-        method:"POST",
-        headers:{"content-type":"application/json"},
-        body:JSON.stringify(rempData)
-      }).then((res)=>{
-        alert("ajout avec succès")
-        navigate('/Home');
-      }).catch((err)=>{
-        console.log(err.message)
-      })
-    }
   return (
-   <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center', height:"100vh"}}>
+    <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center', height:"100vh"}}>
 
             <div  className="row">
                 <div  className="offset-lg-3 col-lg-6">
-                    <form style={{  fontFamily: 'Poppins, sans-serif',  fontWeight: '500',  letterSpacing: '1px', fontSize: '20px' }}  className="container" onSubmit={handlesubmit}>
+                    <form style={{  fontFamily: 'Poppins, sans-serif',  fontWeight: '500',  letterSpacing: '1px', fontSize: '20px' }} className="container" onSubmit={handlesubmit}>
 
                         <div   className="card" style={{  padding :"20px",height:"85vh" ,textAlign:"left", overflow: 'auto'}}>
                             <div style={{margin :"10px"}} className="card-title">
-                                <h2>Ajouter un nouveau remplissage</h2>
+                                <h2>Modifier le remplissage</h2>
                             </div>
 
 
@@ -55,8 +70,8 @@ const AjoutRemplissage = () => {
                                     <div style={{ margin :"10px" }}className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px" }}>Nom distributeur :</label>
-                                            <input required value={nom}  onChange={e=>setNom(e.target.value)} className="form-control"></input>
-                                           
+                                            <input required value={nom} onChange={e=>setNom(e.target.value)} className="form-control"></input>
+                                          
                                         </div>
                                     </div>
 
@@ -121,4 +136,5 @@ const AjoutRemplissage = () => {
   )
 }
 
-export default AjoutRemplissage
+export default ModifRemplissage
+

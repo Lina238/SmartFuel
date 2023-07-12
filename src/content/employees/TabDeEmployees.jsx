@@ -1,96 +1,118 @@
-import React, { Component } from 'react'
+
+import React, { Component, useState , useEffect } from 'react'
+import { Link, useNavigate } from "react-router-dom";
+
 import { Button } from 'antd';
-import TabDeEmployeesAction from './TabDeEmployeesAction';
 
+const URL = "http://localhost:8000/Employees" ;
 
-
-class TabDeEmployees extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-                employees: []
-        }
-       this.ajoutEmployee = this.ajoutEmployee.bind(this);
-        this.modifierEmployee = this.modifierEmployee.bind(this);
-        this.supprimerEmployee = this.supprimerEmployee.bind(this);
-    }
-    componentDidMount(){
-          TabDeEmployeesAction.getEmployee().then((res) => {
-            this.setState({ employees: res.data});
-        });
-    }
+const TabDeEmployees = () => {
+    const[empData,setempData] =useState(null)
+    const navigate = useNavigate();
     
-    ajoutEmployee(){
-        this.props.history.push('/ajoutEmployee/ajout');
+    const LoadEdit = (id) => {
+        navigate("/ModifierEmployee/" + id);
     }
 
-    modifierEmployee(id){
-        this.props.history.push(`/ajoutEmployee/${id}`);
+    useEffect(() => {
+        fetch(URL).then((res) => {
+            return res.json();
+        }).then((resp) => {
+           setempData(resp);
+        }).catch((err) => {
+            console.log(err.message);
+        })
+    }, [])
+
+    const Removefunction = (id) => {
+        if (window.confirm('Voulez vous vraiment le supprimer ?')) {
+            fetch(URL+"/" + id, {
+                method: "DELETE"
+            }).then((res) => {
+                alert('Supprimé avec succès !')
+                window.location.reload();
+                console.log("the id"+id)
+            }).catch((err) => {
+                console.log(err.message)
+            })
+        }
     }
+  return (
+    <div style={{ margin: '20px' }}>   
+    <Link to='/AjouterEmployee'>
+    <Button type="primary"  style={{   marginBottom: 20, }} >
+     Nouveau Employée
+    </Button>
+    </Link>
 
-    supprimerEmployee(id){
-      TabDeEmployeesAction.supprimerEmployee(id).then( res => {
-            this.setState({employees: this.state.employees.filter(employee => employee.id !== id)});
-        });
-    }
+    <br></br>
+    <div style={{ height: '400px', overflow: 'auto' }}>
+      <table className = "table table-striped table-bordered rounded"  style={{ fontFamily: 'Poppins, sans-serif',borderRadius: '4px 2px 4px',
+      fontSize: '14px', width:"150vh", border:'2px solid #ffffff' }}> 
+     <thead style ={{backgroundColor :'#A0A0A0' }} >
+                   <tr style={ { borderRadius: '4px 2px 4px'}} >
+                    <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Nom employée</th>
+                    <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Prénom employée</th>
+                    <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'}}> N° Téléphone</th>
+                    <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}>Rôle </th>
+                    <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}>Son chef</th>
+                    <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Opérations</th>
+                  </tr>
+           </thead>
+    <tbody>
+  {empData && empData.length > 0 ? (
+    empData.map((item) => (
+      <tr key={item.id}>
+        <td>{item.nom}</td>
+        <td>{item.prenom}</td>
+        <td>{item.ntel}</td>
+        <td>{item.role}</td>
+        <td>{item.chef}</td>
 
-
-   
-
-
-    render() {
-        return (
-        <div style={{ margin: '20px' }}>   
-
-          <Button type="primary" onClick={this.ajoutEmployee} style={{   marginBottom: 20, }} >
-           Nouveau Employée
+        <td>
+          <Button
+            type="primary"
+            onClick={() => {
+              LoadEdit(item.id);
+            }}
+            style={{
+              backgroundColor: "#FFA500",
+              margin: "5px 8px",
+              fontWeight: "600",
+            }}
+          >
+            Modifier
           </Button>
-          <br></br>
-          <div style={{ height: '400px', overflow: 'auto' }}>
-            <table className = "table table-striped table-bordered rounded"  style={{ fontFamily: 'Poppins, sans-serif',borderRadius: '4px 2px 4px',
-            fontSize: '14px', width:"150vh", border:'2px solid #ffffff' }}> 
-           <thead style ={{backgroundColor :'#A0A0A0' }} >
-              <tr style={ { borderRadius: '4px 2px 4px'}} >
-                 <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'  }}> Code Utilisateur</th>
-                 <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Nom employée</th>
-                 <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}>Prénom employée</th>
-                <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'}}> N° Téléphone</th>
-                 <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}>Rôle </th>
-                 <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}>Son chef</th>
-                 <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Opérations</th>
-                </tr>
-          </thead>
-          <tbody  >
-               
-                {  this.state.employees.map(
-                          employee=> 
-                 <tr key={employee.id}>
-                                            
-                 <td >  {employee.id} </td>
-                 <td >  {employee.nom} </td>
-                 <td >  {employee.prenom} </td>
-                 <td >  {employee.ntel} </td>
-                 <td >  {employee.role} </td>
-                 <td >  {employee.chef} </td>
-               
-                <td >
-                <Button type="primary" onClick={ () => this.modifierEmployee(employee.id)} style={{  backgroundColor :"#FFA500" ,margin:"0px 8px 0px 0px",fontWeight :"600" }} >Modifier</Button>
-                <Button type="primary" onClick={ () => this.supprimerEmployee(employee.id)} style={{   backgroundColor :"#FF0000",margin:"0px 0px 0px 8px",fontWeight :"600" }} >Supprimer   </Button>                                  
-                 </td>
-                 </tr>
-                 
-                                       
-                               )}   
-                                
-                            </tbody>
-                        </table>
+          <Button
+            type="primary"
+            onClick={() => {
+              Removefunction(item.id);
+            }}
+            style={{
+              backgroundColor: "#FF0000",
+              margin: "5px 8px",
+              fontWeight: "600",
+            }}
+          >
+            Supprimer
+          </Button>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={6}>Aucune donnée disponible</td>
+    </tr>
+  )}
+</tbody>
 
-                 </div>
-           
-            </div>
-        )
-    }
+                  </table>
+
+           </div>
+     
+      </div>
+  )
 }
 
-export default TabDeEmployees;
+export default TabDeEmployees
+

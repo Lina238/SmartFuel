@@ -3,29 +3,30 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 
-const ModifGisement = () => {
-    const URL = "http://localhost:8000/Gisements" ;
-    const {gisid} =useParams();
+const ModifEmployee = () => {
+    const URL = "http://localhost:8000/Employees" ;
+    const {empid} =useParams();
 
 
 
     const[nom,setNom]=useState("");
-    const[capacite_totale,setCapacite_totale]=useState("");
-    const[seuil,setSeuil]=useState("");
-    const[quantite_actuelle,setQuantite_actuelle]=useState("");
-
-   
+    const[prenom,setPrenom]=useState("");
+    const[ntel,setNtel]=useState("");
+    const[role,setRole]=useState("");
+    const[chef,setChef]=useState("");
     
     const navigate=useNavigate();
 
     useEffect(()=> {
-        fetch(URL+'/'+gisid).then((res)=> {
+        fetch(URL+'/'+empid).then((res)=> {
             return res.json();
         }).then((resp)=> {
             setNom(resp.nom);
-            setCapacite_totale(resp.capacite_totale) ;
-            setSeuil(resp.seuil);
-            setQuantite_actuelle(resp.quantite_actuelle);
+            setPrenom(resp.prenom) ;
+            setNtel(resp.ntel);
+            setRole(resp.role);
+            setChef(resp.chef);
+          
         }).catch((err)=> {
             console.log(err.message)
         })
@@ -34,13 +35,12 @@ const ModifGisement = () => {
 
     const handlesubmit=(e)=>{
         e.preventDefault();
-        const gisData={nom,capacite_totale,seuil,quantite_actuelle};
-        
+        const empData={nom,prenom,ntel,role,chef};
   
-        fetch(URL+'/'+gisid,{
+        fetch(URL+"/"+empid,{
           method:"PUT",
           headers:{"content-type":"application/json"},
-          body:JSON.stringify(gisData)
+          body:JSON.stringify(empData)
         }).then((res)=>{
           alert("Modifié avec succès")
           navigate('/Home');
@@ -54,48 +54,55 @@ const ModifGisement = () => {
 
             <div  className="row">
                 <div  className="offset-lg-3 col-lg-6">
-                    <form style={{  fontFamily: 'Poppins, sans-serif',  fontWeight: '500',  letterSpacing: '1px', fontSize: '20px', }} className="container" onSubmit={handlesubmit}>
+                    <form style={{  fontFamily: 'Poppins, sans-serif',  fontWeight: '500',  letterSpacing: '1px', fontSize: '20px' }} className="container" onSubmit={handlesubmit}>
 
-                        <div   className="card" style={{ padding :"20px",height:"85vh" ,textAlign:"left"}}>
+                        <div   className="card" style={{  padding :"20px",height:"85vh" ,textAlign:"left", overflow: 'auto'}}>
                             <div style={{margin :"10px"}} className="card-title">
-                                <h2>Modifier le gisement</h2>
+                                <h2>Modifier l'employé</h2>
                             </div>
 
 
                             <div className="card-body">
                                 <div className="row">
 
-                                    <div style={{ margin :"10px" }}className="col-lg-12">
+                                <div style={{ margin :"10px" }}className="col-lg-12">
                                         <div className="form-group">
-                                            <label style={{ margin:"10px" }}>Nom distributeur :</label>
+                                            <label style={{ margin:"10px" }}>Nom :</label>
                                             <input required value={nom}  onChange={e=>setNom(e.target.value)} className="form-control"></input>
+                                           
+                                        </div>
+                                    </div>
+
+                                    <div style={{ margin :"10px" }} className="col-lg-12">
+                                        <div className="form-group">
+                                            <label style={{ margin:"10px " }}>Prénom :</label>
+                                            <input value={prenom} onChange={e=>setPrenom(e.target.value)} className="form-control"></input>
+                                          
+                                        </div>
+                                    </div>
+                                    <div style={{ margin :"10px" }} className="col-lg-12">
+                                        <div className="form-group">
+                                            <label style={{ margin:"10px " }} >Num de téléphone :</label>
+                                            <input value={ntel} onChange={e=>setNtel(e.target.value)} className="form-control"></input>
                                           
                                         </div>
                                     </div>
 
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Capacité totale :</label>
-                                            <input value={capacite_totale} onChange={e=>setCapacite_totale(e.target.value)} className="form-control"></input>
-                                          
-                                        </div>
-                                    </div>
-
-                                    <div style={{ margin :"10px" }} className="col-lg-12">
-                                        <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Seuil :</label>
-                                            <input value={seuil} onChange={e=>setSeuil(e.target.value)} className="form-control"></input>
+                                            <label style={{ margin:"10px " }}>Son rôle :</label>
+                                            <input value={role} onChange={e=>setRole(e.target.value)} className="form-control"></input>
                                             
                                         </div>
                                     </div>
+                                  
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
-                                            <label style={{ margin:"10px " }} >Quantité actuelle :</label>
-                                            <input value={quantite_actuelle} onChange={e=>setQuantite_actuelle(e.target.value)} className="form-control"></input>
-                                          
+                                            <label style={{ margin:"10px " }}>Son chef :</label>
+                                            <input value={chef} onChange={e=>setChef(e.target.value)} className="form-control"></input>
+                                            
                                         </div>
                                     </div>
-
 
                                   
                                     <div className="col-lg-12">
@@ -119,5 +126,5 @@ const ModifGisement = () => {
   )
 }
 
-export default ModifGisement
+export default ModifEmployee
 

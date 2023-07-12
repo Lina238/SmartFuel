@@ -54,7 +54,7 @@ const AjoutProduit = () => {
                                         <div className="form-group">
                                             <label style={{ margin:"10px" }}>Nom distributeur :</label>
                                             <input required value={nom} onMouseDown={e=>valchange(true)} onChange={e=>setNom(e.target.value)} className="form-control"></input>
-                                            {nom.length==0 && validation && <span className="text-danger">Veuillez entrer le nom ou le code de distributeur</span>}
+                                            
                                         </div>
                                     </div>
 

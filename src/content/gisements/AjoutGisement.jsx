@@ -5,12 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 const AjoutGisement = () => {
     
-    const URL = "http://localhost:8000/produits" ;
+    const URL = "http://localhost:8000/Gisements" ;
 
     const[nom,setNom]=useState("");
-    const[capaciteTotale,setCapaciteTotale]=useState("");
+    const[capacite_totale,setCapacite_totale]=useState("");
     const[seuil,setSeuil]=useState("");
-    const[quantiteActuelle,setQuantiteActuelle]=useState("");
+    const[quantite_actuelle,setQuantite_actuelle]=useState("");
 
     
     const[validation,valchange]=useState(false);
@@ -21,13 +21,13 @@ const AjoutGisement = () => {
 
     const handlesubmit=(e)=>{
       e.preventDefault();
-      const prodData={nom,capaciteTotale,seuil,prix_de_vente};
+      const gisData={nom,capacite_totale,seuil,quantite_actuelle};
       
 
       fetch(URL,{
         method:"POST",
         headers:{"content-type":"application/json"},
-        body:JSON.stringify(prodData)
+        body:JSON.stringify(gisData)
       }).then((res)=>{
         alert("ajout avec succès")
         navigate('/Home');
@@ -44,7 +44,7 @@ const AjoutGisement = () => {
 
                         <div   className="card" style={{ padding :"20px",height:"85vh" ,textAlign:"left"}}>
                             <div style={{margin :"10px"}} className="card-title">
-                                <h2>Ajouter un nouveau produit</h2>
+                                <h2>Ajouter un nouveau gisement</h2>
                             </div>
 
 
@@ -55,29 +55,29 @@ const AjoutGisement = () => {
                                         <div className="form-group">
                                             <label style={{ margin:"10px" }}>Nom distributeur :</label>
                                             <input required value={nom} onMouseDown={e=>valchange(true)} onChange={e=>setNom(e.target.value)} className="form-control"></input>
-                                            {nom.length==0 && validation && <span className="text-danger">Veuillez entrer le nom ou le code de distributeur</span>}
+                                           
                                         </div>
                                     </div>
 
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Type :</label>
-                                            <input value={type} onChange={e=>setType(e.target.value)} className="form-control"></input>
+                                            <label style={{ margin:"10px " }}>Capacité totale :</label>
+                                            <input value={capacite_totale} onChange={e=>setCapacite_totale(e.target.value)} className="form-control"></input>
                                           
                                         </div>
                                     </div>
 
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Unité de mesure :</label>
-                                            <input value={unite_de_mesure} onChange={e=>setUnite_de_mesure(e.target.value)} className="form-control"></input>
+                                            <label style={{ margin:"10px " }}>Seuil :</label>
+                                            <input value={seuil} onChange={e=>setSeuil(e.target.value)} className="form-control"></input>
                                             
                                         </div>
                                     </div>
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
-                                            <label style={{ margin:"10px " }} >Prix de vente :</label>
-                                            <input value={prix_de_vente} onChange={e=>setPrix_de_vente(e.target.value)} className="form-control"></input>
+                                            <label style={{ margin:"10px " }} >Quantité actuelle :</label>
+                                            <input value={quantite_actuelle} onChange={e=>setQuantite_actuelle(e.target.value)} className="form-control"></input>
                                           
                                         </div>
                                     </div>
