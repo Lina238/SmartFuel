@@ -5,6 +5,18 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ModifEmployee = () => {
     const URL = "http://localhost:8000/Employees" ;
+    const URL1 ="http://localhost:8000/chefs";
+   
+    useEffect(() => {
+        fetch(URL1) 
+          .then((res) => res.json())
+          .then((data) => {
+            setChefsOptions(data);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      }, []);
     const {empid} =useParams();
 
 
@@ -14,6 +26,8 @@ const ModifEmployee = () => {
     const[ntel,setNtel]=useState("");
     const[role,setRole]=useState("");
     const[chef,setChef]=useState("");
+
+    const [chefsOptions, setChefsOptions] = useState([]);
     
     const navigate=useNavigate();
 
@@ -43,7 +57,7 @@ const ModifEmployee = () => {
           body:JSON.stringify(empData)
         }).then((res)=>{
           alert("Modifié avec succès")
-          navigate('/Home');
+          navigate('/Home?tab=employés');
         }).catch((err)=>{
           console.log(err.message)
         })
@@ -88,22 +102,37 @@ const ModifEmployee = () => {
                                         </div>
                                     </div>
 
-                                    <div style={{ margin :"10px" }} className="col-lg-12">
-                                        <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Son rôle :</label>
-                                            <input value={role} onChange={e=>setRole(e.target.value)} className="form-control"></input>
-                                            
-                                        </div>
-                                    </div>
-                                  
-                                    <div style={{ margin :"10px" }} className="col-lg-12">
-                                        <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Son chef :</label>
-                                            <input value={chef} onChange={e=>setChef(e.target.value)} className="form-control"></input>
-                                            
-                                        </div>
-                                    </div>
+                                    <div style={{ margin: "10px" }} className="col-lg-12">
+  <div className="form-group">
+    <label style={{ margin: "10px " }}>Son rôle :</label>
+    <select value={role} onChange={e => setRole(e.target.value)} className="form-control">
+      <option value="">Sélectionner un rôle</option>
+      <option value="Admin">Admin</option>
+      <option value="Gestionnaire">Gestionnaire</option>
+      <option value="Gérant">Gérant</option>
+    </select>
+  </div>
+</div>
 
+
+                                  
+                                    <div style={{ margin: "10px" }} className="col-lg-12">
+  <div className="form-group">
+    <label style={{ margin: "10px " }}>Son chef :</label>
+    <select
+      value={chef}
+      onChange={(e) => setChef(e.target.value)}
+      className="form-control"
+    >
+      <option value="">Sélectionner un chef</option>
+      {chefsOptions.map((item) => (
+        <option key={item.id} value={item.nom}>
+          {item.nom}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
                                   
                                     <div className="col-lg-12">
                                         <div className="form-group">

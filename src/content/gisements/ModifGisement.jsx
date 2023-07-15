@@ -5,14 +5,30 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ModifGisement = () => {
     const URL = "http://localhost:8000/Gisements" ;
+    const URL1 = "http://localhost:8000/types" ;
+
+    const [chefsOptions, setChefsOptions] = useState([]);
+
+    useEffect(() => {
+        fetch(URL1) 
+          .then((res) => res.json())
+          .then((data) => {
+            setChefsOptions(data);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      }, []);
+
     const {gisid} =useParams();
 
 
 
     const[nom,setNom]=useState("");
+    const[type,setType]=useState("");
     const[capacite_totale,setCapacite_totale]=useState("");
     const[seuil,setSeuil]=useState("");
-    const[quantite_actuelle,setQuantite_actuelle]=useState("");
+    
 
    
     
@@ -23,9 +39,9 @@ const ModifGisement = () => {
             return res.json();
         }).then((resp)=> {
             setNom(resp.nom);
+            setType(resp.type);
             setCapacite_totale(resp.capacite_totale) ;
             setSeuil(resp.seuil);
-            setQuantite_actuelle(resp.quantite_actuelle);
         }).catch((err)=> {
             console.log(err.message)
         })
@@ -34,7 +50,7 @@ const ModifGisement = () => {
 
     const handlesubmit=(e)=>{
         e.preventDefault();
-        const gisData={nom,capacite_totale,seuil,quantite_actuelle};
+        const gisData={nom,type,capacite_totale,seuil};
         
   
         fetch(URL+'/'+gisid,{
@@ -43,7 +59,7 @@ const ModifGisement = () => {
           body:JSON.stringify(gisData)
         }).then((res)=>{
           alert("Modifié avec succès")
-          navigate('/Home');
+          navigate('/Home?tab=gisements');
         }).catch((err)=>{
           console.log(err.message)
         })
@@ -56,7 +72,7 @@ const ModifGisement = () => {
                 <div  className="offset-lg-3 col-lg-6">
                     <form style={{  fontFamily: 'Poppins, sans-serif',  fontWeight: '500',  letterSpacing: '1px', fontSize: '20px', }} className="container" onSubmit={handlesubmit}>
 
-                        <div   className="card" style={{ padding :"20px",height:"85vh" ,textAlign:"left"}}>
+                        <div   className="card" style={{ padding :"20px",height:"85vh" , overflow: 'auto' ,textAlign:"left"}}>
                             <div style={{margin :"10px"}} className="card-title">
                                 <h2>Modifier le gisement</h2>
                             </div>
@@ -73,6 +89,24 @@ const ModifGisement = () => {
                                         </div>
                                     </div>
 
+                                    <div style={{ margin: "10px" }} className="col-lg-12">
+                                        <div className="form-group">
+                                           <label style={{ margin: "10px " }}>Le type :</label>
+                                           <select
+                                           value={type}
+                                           onChange={(e) => setType(e.target.value)}
+                                           className="form-control"
+                                          >
+                                        <option value="">Sélectionner un type</option>
+                                       {chefsOptions.map((item) => (
+                                       <option key={item.id} value={item.type}>
+                                        {item.type}
+                                        </option>
+                                         ))}
+                                       </select>
+                                     </div>
+                                 </div>
+
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px " }}>Capacité totale :</label>
@@ -88,13 +122,7 @@ const ModifGisement = () => {
                                             
                                         </div>
                                     </div>
-                                    <div style={{ margin :"10px" }} className="col-lg-12">
-                                        <div className="form-group">
-                                            <label style={{ margin:"10px " }} >Quantité actuelle :</label>
-                                            <input value={quantite_actuelle} onChange={e=>setQuantite_actuelle(e.target.value)} className="form-control"></input>
-                                          
-                                        </div>
-                                    </div>
+                                    
 
 
                                   

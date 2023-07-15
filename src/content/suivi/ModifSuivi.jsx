@@ -51,7 +51,7 @@ const ModifSuivi = () => {
           body:JSON.stringify(suivData)
         }).then((res)=>{
           alert("Modifié avec succès")
-          navigate('/Home');
+          navigate('/Home?tab=suivi');
         }).catch((err)=>{
           console.log(err.message)
         })
@@ -64,7 +64,7 @@ const ModifSuivi = () => {
                 <div  className="offset-lg-3 col-lg-6">
                     <form style={{  fontFamily: 'Poppins, sans-serif',  fontWeight: '500',  letterSpacing: '1px', fontSize: '20px' }} className="container" onSubmit={handlesubmit}>
 
-                        <div   className="card" style={{  padding :"20px",height:"85vh" ,textAlign:"left", overflow: 'auto'}}>
+                        <div   className="card" style={{  padding :"20px",textAlign:"left",height:"85vh" , overflow: 'auto'}}>
                             <div style={{margin :"10px"}} className="card-title">
                                 <h2>Modifier le suivi</h2>
                             </div>

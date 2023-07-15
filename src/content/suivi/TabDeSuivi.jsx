@@ -31,7 +31,7 @@ const TabDeSuivi = () => {
             }).then((res) => {
                 alert('Supprimé avec succès !')
                 window.location.reload();
-                console.log("the id"+id)
+                navigate('/Home?tab=suivi');
             }).catch((err) => {
                 console.log(err.message)
             })

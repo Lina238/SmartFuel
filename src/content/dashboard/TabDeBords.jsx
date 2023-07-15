@@ -50,4 +50,3 @@ const TabDeBords = () => {
 }
 
 export default TabDeBords
-

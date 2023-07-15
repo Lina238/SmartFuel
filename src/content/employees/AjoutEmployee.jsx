@@ -1,17 +1,37 @@
 import React from 'react'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 
 const AjoutEmployee = () => {
     
     const URL = "http://localhost:8000/Employees" ;
+    const URL1 ="http://localhost:8000/chefs";
+   
+    useEffect(() => {
+        fetch(URL1) 
+          .then((res) => res.json())
+          .then((data) => {
+            setChefsOptions(data);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      }, []);
+      
+  
+      
 
     const[nom,setNom]=useState("");
     const[prenom,setPrenom]=useState("");
     const[ntel,setNtel]=useState("");
     const[role,setRole]=useState("");
     const[chef,setChef]=useState("");
+
+    const [chefsOptions, setChefsOptions] = useState([]);
+   
+
+
 
     const navigate=useNavigate();
 
@@ -28,7 +48,7 @@ const AjoutEmployee = () => {
         body:JSON.stringify(empData)
       }).then((res)=>{
         alert("ajout avec succès")
-        navigate('/Home');
+        navigate('/Home?tab=employés');
       }).catch((err)=>{
         console.log(err.message)
       })
@@ -71,22 +91,38 @@ const AjoutEmployee = () => {
                                           
                                         </div>
                                     </div>
+                                    <div style={{ margin: "10px" }} className="col-lg-12">
+  <div className="form-group">
+    <label style={{ margin: "10px " }}>Son rôle :</label>
+    <select value={role} onChange={e => setRole(e.target.value)} className="form-control">
+      <option value="">Sélectionner un rôle</option>
+      <option value="Admin">Admin</option>
+      <option value="Gestionnaire">Gestionnaire</option>
+      <option value="Gérant">Gérant</option>
+    </select>
+  </div>
+</div>
 
-                                    <div style={{ margin :"10px" }} className="col-lg-12">
-                                        <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Son rôle :</label>
-                                            <input value={role} onChange={e=>setRole(e.target.value)} className="form-control"></input>
-                                            
-                                        </div>
-                                    </div>
+
                                   
-                                    <div style={{ margin :"10px" }} className="col-lg-12">
-                                        <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Son chef :</label>
-                                            <input value={chef} onChange={e=>setChef(e.target.value)} className="form-control"></input>
-                                            
-                                        </div>
-                                    </div>
+                          <div style={{ margin: "10px" }} className="col-lg-12">
+                             <div className="form-group">
+                             <label style={{ margin: "10px " }}>Son chef :</label>
+                             <select
+                             value={chef}
+                             onChange={(e) => setChef(e.target.value)}
+                             className="form-control"
+                               >
+                           <option value="">Sélectionner un chef</option>
+                           {chefsOptions.map((item) => (
+                          <option key={item.id} value={item.nom}>
+                          {item.nom}
+                         </option>
+                           ))}
+                          </select>
+                           </div>
+                          </div>
+
                                     
                                     
 

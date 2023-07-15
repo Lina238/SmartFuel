@@ -9,7 +9,6 @@ const ModifProduit = () => {
 
 
     const[nom,setNom]=useState("");
-    const[type,setType]=useState("");
     const[unite_de_mesure,setUnite_de_mesure]=useState("");
     const[prix_de_vente,setPrix_de_vente]=useState("");
 
@@ -21,7 +20,6 @@ const ModifProduit = () => {
             return res.json();
         }).then((resp)=> {
             setNom(resp.nom);
-            setType(resp.type) ;
             setUnite_de_mesure(resp.unite_de_mesure);
             setPrix_de_vente(resp.prix_de_vente);
         }).catch((err)=> {
@@ -34,7 +32,7 @@ const ModifProduit = () => {
 
     const handlesubmit=(e)=>{
       e.preventDefault();
-      const prodData={nom,type,unite_de_mesure,prix_de_vente};
+      const prodData={nom,unite_de_mesure,prix_de_vente};
       
 
       fetch(URL+"/"+prodid,{
@@ -43,7 +41,7 @@ const ModifProduit = () => {
         body:JSON.stringify(prodData)
       }).then((res)=>{
         alert("Modifié avec succès")
-        navigate('/Home');
+        navigate('/Home?tab=produits');
       }).catch((err)=>{
         console.log(err.message)
       })
@@ -55,7 +53,7 @@ const ModifProduit = () => {
                 <div  className="offset-lg-3 col-lg-6">
                     <form style={{  fontFamily: 'Poppins, sans-serif',  fontWeight: '500',  letterSpacing: '1px', fontSize: '20px', }} className="container" onSubmit={handlesubmit}>
 
-                        <div   className="card" style={{ padding :"20px",height:"85vh" ,textAlign:"left"}}>
+                        <div   className="card" style={{ padding :"20px",height:"85vh" ,textAlign:"left", overflow:"auto"}}>
                             <div style={{margin :"10px"}} className="card-title">
                                 <h2>Modifier le produit</h2>
                             </div>
@@ -72,18 +70,16 @@ const ModifProduit = () => {
                                         </div>
                                     </div>
 
-                                    <div style={{ margin :"10px" }} className="col-lg-12">
-                                        <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Type :</label>
-                                            <input value={type} onChange={e=>setType(e.target.value)} className="form-control"></input>
-                                        </div>
-                                    </div>
 
-                                    <div style={{ margin :"10px" }} className="col-lg-12">
-                                        <div className="form-group">
-                                            <label style={{ margin:"10px " }}>Unité de mesure :</label>
-                                            <input value={unite_de_mesure} onChange={e=>setUnite_de_mesure(e.target.value)} className="form-control"></input>
-                                        </div>
+                                    <div style={{ margin: "10px" }} className="col-lg-12">
+                                      <div className="form-group">
+                                      <label style={{ margin: "10px " }}>Unité de mesure :</label>
+                                      <select value={unite_de_mesure} onChange={e => setUnite_de_mesure(e.target.value)} className="form-control">
+                                         <option value="">Sélectionnez une option</option>
+                                         <option value="Litre">Litre</option>
+                                         <option value="Mètre cube">Mètre cube</option>
+                                      </select>
+                                    </div>
                                     </div>
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">

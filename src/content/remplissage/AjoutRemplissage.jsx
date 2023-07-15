@@ -1,20 +1,23 @@
 import React from 'react'
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
+import { Link, useNavigate  } from "react-router-dom";
+
+
 
 
 const AjoutRemplissage = () => {
-    
+   
     const URL = "http://localhost:8000/Remplissages" ;
 
     const[nom,setNom]=useState("");
     const[quantite,setQuantite]=useState("");
     const[unite_de_mesure,setUnite_de_mesure]=useState("");
-    const[date_de_creation,setDate_de_creation]=useState("");
-    const[date_de_modification,setDate_de_modification]=useState("");
-    const[prix_dachat,setPrix_dachat]=useState("");
+    const[date_de_creation,setDate_de_creation]=useState(new Date().toUTCString());
+    const[date_de_modification,setDate_de_modification]=useState(new Date().toUTCString());
+    const[prix_dachat,setPrix_dachat]=useState("Da");
     
    
+ 
     
     const navigate=useNavigate();
 
@@ -31,7 +34,9 @@ const AjoutRemplissage = () => {
         body:JSON.stringify(rempData)
       }).then((res)=>{
         alert("ajout avec succès")
-        navigate('/Home');
+        navigate('/Home?tab=remplissages');
+
+
       }).catch((err)=>{
         console.log(err.message)
       })

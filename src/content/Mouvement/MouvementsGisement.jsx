@@ -1,0 +1,64 @@
+import React, { Component, useState , useEffect } from 'react'
+
+
+
+
+const MouvementsGisement = () => {
+  const URL = "http://localhost:8000/MouvementGisement" ;
+  const[mouvData,setmouvData] =useState(null)
+
+  useEffect(() => {
+    fetch(URL).then((res) => {
+        return res.json();
+    }).then((resp) => {
+      setmouvData(resp);
+    }).catch((err) => {
+        console.log(err.message);
+    })
+}, [])
+
+  return (
+    <div style={{ margin: '20px' }}>   
+ 
+
+    <br></br>
+    <div style={{ height: '400px', overflow: 'auto' }}>
+      <table className = "table table-striped table-bordered rounded"  style={{ fontFamily: 'Poppins, sans-serif',borderRadius: '4px 2px 4px',
+      fontSize: '14px', width:"150vh", border:'2px solid #ffffff' }}> 
+     <thead style ={{backgroundColor :'#A0A0A0' }} >
+        <tr style={ { borderRadius: '4px 2px 4px'}} >
+           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'  }}> Nom Distributeur</th>
+           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'}}> Quantité</th>
+           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Type d'opération</th>
+           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Date de création</th>
+           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Date de modification</th>
+          </tr>
+    </thead>
+    <tbody  >
+         
+          {  mouvData && mouvData.length > 0 ? ( 
+            mouvData.map((item)=>(
+           <tr key={item.id}>                      
+           <td >  {item.nom} </td>
+           <td >  {item.quantite} </td>
+           <td >  {item.TYPE === 0 ? "entrée" : "sortie"} </td>
+           <td >  {item.date_de_creation} </td>
+           <td >  {item.date_de_modification} </td>
+          
+           </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={5}>Aucune donnée disponible</td>
+    </tr>
+  )}
+</tbody>
+                  </table>
+
+           </div>
+     
+      </div>
+  )
+}
+
+export default MouvementsGisement

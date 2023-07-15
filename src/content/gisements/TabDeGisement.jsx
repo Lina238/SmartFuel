@@ -4,10 +4,44 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from 'antd';
 
-const URL = "http://localhost:8000/Gisements" ;
+
 
 const TabDeGisement = () => {
+  const URL = "http://localhost:8000/Gisements" ;
+  const URL1 = "http://localhost:8000/types" ;
+
+  const [type, setType] = useState([]);
+
+  const handlesubmit=(e)=>{
+    e.preventDefault();
+    const dataa={type};
+    
+
+    fetch(URL1,{
+      method:"POST",
+      headers:{"content-type":"application/json"},
+      body:JSON.stringify(dataa)
+    }).then((res)=>{
+      alert("ajout avec succès")
+    }).catch((err)=>{
+      console.log(err.message)
+    })
+  }
+
+  const [showChefForm, setShowChefForm] = useState(false);
+
+  const showChefFormHandler = () => {
+          setShowChefForm(true);
+   };
+
+  const hideChefFormHandler = () => {
+    setShowChefForm(false);
+      };
+
+
+
     const[gisData,setgisData] =useState(null)
+
     const navigate = useNavigate();
     
     const LoadEdit = (id) => {
@@ -31,6 +65,7 @@ const TabDeGisement = () => {
             }).then((res) => {
                 alert('Supprimé avec succès !')
                 window.location.reload();
+                navigate('/Home?tab=gisements');
                 console.log("the id"+id)
             }).catch((err) => {
                 console.log(err.message)
@@ -39,6 +74,34 @@ const TabDeGisement = () => {
     }
   return (
     <div style={{ margin: '20px' }}>   
+     {!showChefForm ? (
+      <div style={{ display: 'flex', justifyContent: 'start',}}>
+      <Button type="primary" style={{ marginBottom: 10 , padding:"5px 23px" }} onClick={showChefFormHandler}>
+        Ajouter les types 
+      </Button>
+      </div>
+    ) : (
+      <div>
+        <form onSubmit={handlesubmit} style={{  fontFamily: 'Poppins, sans-serif',  fontWeight: '400',  letterSpacing: '1px', fontSize: '20px', }} className="container">
+                                    <div style={{ margin :"10px" }} className="col-lg-12">
+                                        <div className="form-group">
+                                            <label style={{ margin:"5px " }} >Type de gaz carburant :</label>
+                                            <input style={{width:"30vw" , border:"1px solid black"}} value={type} onChange={e=> setType(e.target.value)} className="form-control"></input>
+                                          
+                                        </div>
+                                    </div>
+                                    <div>
+                                    <button className="btn btn-success" style={{  padding:"5px 20px" ,margin: "5px 10px 10px 10px" }} type="submit"> Enregistrer </button>
+                                    <button className="btn btn-danger" style={{ padding:"5px 20px" ,  margin: "5px 10px 10px 10px"  }} onClick={hideChefFormHandler}>
+                                       Annuler
+                                    </button>
+                                    </div>
+
+        </form>
+
+      </div>
+
+    )} 
     <Link to='/AjouterGisement'>
     <Button type="primary"  style={{   marginBottom: 20, }} >
      Nouveau Gisement
@@ -52,9 +115,9 @@ const TabDeGisement = () => {
      <thead style ={{backgroundColor :'#A0A0A0' }} >
         <tr style={ { borderRadius: '4px 2px 4px'}} >
            <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'  }}> Nom Distributeur</th>
-           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Type de Gaz</th>
-           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'}}> Unité de mesure</th>
-           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Prix de ventes</th>
+           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'}}> Type</th>
+           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Capacité totale</th>
+           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'}}> Seuil</th>
            <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Opérations</th>
           </tr>
     </thead>
@@ -63,9 +126,9 @@ const TabDeGisement = () => {
     gisData.map((item) => (
       <tr key={item.id}>
         <td>{item.nom}</td>
+        <td>{item.type}</td>
         <td>{item.capacite_totale}</td>
         <td>{item.seuil}</td>
-        <td>{item.quantite_actuelle}</td>
         <td>
           <Button
             type="primary"

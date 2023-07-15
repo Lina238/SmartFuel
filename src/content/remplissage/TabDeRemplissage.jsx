@@ -31,6 +31,7 @@ const TabDeRemplissage = () => {
             }).then((res) => {
                 alert('Supprimé avec succès !')
                 window.location.reload();
+                navigate('/Home?tab=remplissages');
                 console.log("the id"+id)
             }).catch((err) => {
                 console.log(err.message)

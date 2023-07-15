@@ -31,6 +31,7 @@ const TabDeProduits = () => {
             }).then((res) => {
                 alert('Supprimé avec succès !')
                 window.location.reload();
+                navigate('/Home?tab=produits');
                 console.log("the id"+id)
             }).catch((err) => {
                 console.log(err.message)
@@ -53,7 +54,6 @@ const TabDeProduits = () => {
      <thead style ={{backgroundColor :'#A0A0A0' }} >
         <tr style={ { borderRadius: '4px 2px 4px'}} >
            <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'  }}> Nom Distributeur</th>
-           <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Type de Gaz</th>
            <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px'}}> Unité de mesure</th>
            <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Prix de ventes</th>
            <th style ={{backgroundColor :'#606060' ,color:'#ffffff',letterSpacing: '1.2px' }}> Opérations</th>
@@ -65,7 +65,6 @@ const TabDeProduits = () => {
             prodData.map((produit)=>(
            <tr key={produit.id}>                      
            <td >  {produit.nom} </td>
-           <td >  {produit.type} </td>
            <td >  {produit.unite_de_mesure} </td>
            <td >  {produit.prix_de_vente} </td>
           <td >

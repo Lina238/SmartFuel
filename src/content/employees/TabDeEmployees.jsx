@@ -1,12 +1,45 @@
-
 import React, { Component, useState , useEffect } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from 'antd';
 
-const URL = "http://localhost:8000/Employees" ;
+
 
 const TabDeEmployees = () => {
+
+    const [nom, setNom] = useState([]);
+    const URL = "http://localhost:8000/Employees" ;
+    const URL1 = "http://localhost:8000/chefs" ;
+    
+
+    const handlesubmit=(e)=>{
+      e.preventDefault();
+      const dataa={nom};
+      
+
+      fetch(URL1,{
+        method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify(dataa)
+      }).then((res)=>{
+        alert("ajout avec succès")
+      }).catch((err)=>{
+        console.log(err.message)
+      })
+    }
+
+    const [showChefForm, setShowChefForm] = useState(false);
+
+    const showChefFormHandler = () => {
+            setShowChefForm(true);
+     };
+
+    const hideChefFormHandler = () => {
+      setShowChefForm(false);
+        };
+    
+
+
     const[empData,setempData] =useState(null)
     const navigate = useNavigate();
     
@@ -31,6 +64,7 @@ const TabDeEmployees = () => {
             }).then((res) => {
                 alert('Supprimé avec succès !')
                 window.location.reload();
+                navigate('/Home?tab=employés');
                 console.log("the id"+id)
             }).catch((err) => {
                 console.log(err.message)
@@ -38,7 +72,35 @@ const TabDeEmployees = () => {
         }
     }
   return (
-    <div style={{ margin: '20px' }}>   
+    <div style={{ margin: '20px' }}>  
+    {!showChefForm ? (
+      <div style={{ display: 'flex', justifyContent: 'start',}}>
+      <Button type="primary" style={{ marginBottom: 10 , padding:"5px 23px" }} onClick={showChefFormHandler}>
+        Ajouter les Chefs
+      </Button>
+      </div>
+    ) : (
+      <div>
+        <form onSubmit={handlesubmit} style={{  fontFamily: 'Poppins, sans-serif',  fontWeight: '400',  letterSpacing: '1px', fontSize: '20px', }} className="container">
+                                    <div style={{ margin :"10px" }} className="col-lg-12">
+                                        <div className="form-group">
+                                            <label style={{ margin:"5px " }} >Nom de chefs :</label>
+                                            <input style={{width:"30vw" , border:"1px solid black"}} value={nom} onChange={e=> setNom(e.target.value)} className="form-control"></input>
+                                          
+                                        </div>
+                                    </div>
+                                    <div>
+                                    <button className="btn btn-success" style={{  padding:"5px 20px" ,margin: "5px 10px 10px 10px" }} type="submit"> Enregistrer </button>
+                                    <button className="btn btn-danger" style={{ padding:"5px 20px" ,  margin: "5px 10px 10px 10px"  }} onClick={hideChefFormHandler}>
+                                       Annuler
+                                    </button>
+                                    </div>
+
+        </form>
+
+      </div>
+
+    )} 
     <Link to='/AjouterEmployee'>
     <Button type="primary"  style={{   marginBottom: 20, }} >
      Nouveau Employée
@@ -115,4 +177,3 @@ const TabDeEmployees = () => {
 }
 
 export default TabDeEmployees
-

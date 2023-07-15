@@ -1,17 +1,32 @@
 {
-  "Produits": [],
+  "Produits": [
+    {
+      "nom": "Dist C",
+      "type": "fe",
+      "unite_de_mesure": "Litre",
+      "prix_de_vente": "10 da",
+      "id": 2
+    },
+    {
+      "nom": "dsd",
+      "type": "zz",
+      "unite_de_mesure": "Litre",
+      "prix_de_vente": "5Da",
+      "id": 3
+    }
+  ],
   "Gisements": [
     {
-      "nom": "distC",
-      "capacite_totale": "1000",
+      "nom": "Dist A",
+      "type": "essence",
+      "capacite_totale": "500",
       "seuil": "100",
-      "quantite_actuelle": "500",
       "id": 1
     }
   ],
   "Remplissages": [
     {
-      "nom": "dist A ",
+      "nom": "dist C",
       "quantite": "45",
       "unite_de_mesure": "L",
       "date_de_creation": "454",
@@ -29,33 +44,86 @@
       "id": 2
     },
     {
-      "nom": "ibtihel",
-      "prenom": "Sansri",
-      "ntel": "0658383370",
-      "role": "admin",
-      "chef": "ibtihel",
-      "id": 3
+      "nom": "vsvss",
+      "quantite": "ssq",
+      "unite_de_mesure": "aaa",
+      "date_de_creation": "Wed, 12 Jul 2023 17:24:38 GMT",
+      "date_de_modification": "Wed, 12 Jul 2023 17:24:38 GMT",
+      "prix_dachat": "500Da",
+      "id": 4
     }
   ],
   "Suivi": [],
-  "Employees": [],
-  
-  "MontantsParjours":[
+  "Chefs": [
     {
-      "jour":"12/07/2023",
-      "montant":"5000"
+      "id": 1,
+      "nom": "abc"
     },
     {
-      "jour":"13/07/2023",
-      "montant":"10000"
+      "nom": "karim",
+      "id": 2
     },
     {
-      "jour":"14/07/2023",
-      "montant":"8000"
-    }, 
+      "nom": "ibti",
+      "id": 3
+    },
     {
-      "jour":"15/07/2023",
-      "montant":"20000"
+      "nom": "lina",
+      "id": 4
+    }
+  ],
+  "Employees": [
+    {
+      "nom": "sansri",
+      "prenom": "ibtihel",
+      "ntel": "658383370",
+      "role": "Admin",
+      "chef": "karim",
+      "id": 1
+    },
+    {
+      "nom": "sansri",
+      "prenom": "ibtihel",
+      "ntel": "658383370",
+      "role": "gestionnaire",
+      "chef": "lina",
+      "id": 2
+    },
+    {
+      "nom": "sansri",
+      "prenom": "ibtihel",
+      "ntel": "658383370",
+      "role": "Admin",
+      "chef": "karim",
+      "id": 3
+    }
+  ],
+  "MouvementGisement": [
+    {
+      "id": 1,
+      "nom": "Dist C",
+      "quantite": "100",
+      "TYPE": "1",
+      "date_de_creation": "Wed, 12 Jul 2023 17:24:38 GMT",
+      "date_de_modification": "Wed, 12 Jul 2023 17:24:38 GMT"
+    },
+    {
+      "id": 2,
+      "nom": "Dist C",
+      "quantite": "100",
+      "TYPE": "1",
+      "date_de_creation": "Wed, 12 Jul 2023 17:24:38 GMT",
+      "date_de_modification": "Wed, 12 Jul 2023 17:24:38 GMT"
+    }
+  ],
+  "types": [
+    {
+      "type": "essence",
+      "id": 1
+    },
+    {
+      "type": "gaz",
+      "id": 2
     }
   ]
 }

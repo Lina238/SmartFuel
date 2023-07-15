@@ -34,7 +34,7 @@ const AjoutSuivi = () => {
         body:JSON.stringify(suivData)
       }).then((res)=>{
         alert("ajout avec succès")
-        navigate('/Home');
+        navigate('/Home?tab=suivi');
       }).catch((err)=>{
         console.log(err.message)
       })

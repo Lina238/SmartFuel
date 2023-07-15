@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Watermark } from 'antd';
 
 const defaultTheme = createTheme();
 const Login = () => {
@@ -46,7 +47,14 @@ const Login = () => {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <Watermark content="SmartFuel">
+    <div
+      style={{
+        height: "100vh",
+        overflow:"hidden"
+      }}
+    >
+     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -109,6 +117,9 @@ const Login = () => {
         </Box>
       </Container>
     </ThemeProvider>
+    </div>
+  </Watermark>
+   
   );
 };
 

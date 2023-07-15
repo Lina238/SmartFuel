@@ -13,7 +13,7 @@ const ModifRemplissage = () => {
     const[quantite,setQuantite]=useState("");
     const[unite_de_mesure,setUnite_de_mesure]=useState("");
     const[date_de_creation,setDate_de_creation]=useState("");
-    const[date_de_modification,setDate_de_modification]=useState("");
+    const date_de_modification = new Date().toUTCString;
     const[prix_dachat,setPrix_dachat]=useState("");
     
     const navigate=useNavigate();
@@ -25,8 +25,6 @@ const ModifRemplissage = () => {
             setNom(resp.nom);
             setQuantite(resp.quantite) ;
             setUnite_de_mesure(resp.unite_de_mesure);
-            setDate_de_creation(resp.date_de_creation);
-            setDate_de_modification(resp.date_de_modification);
             setPrix_dachat(resp.prix_dachat);
         }).catch((err)=> {
             console.log(err.message)
@@ -45,7 +43,7 @@ const ModifRemplissage = () => {
           body:JSON.stringify(rempData)
         }).then((res)=>{
           alert("Modifié avec succès")
-          navigate('/Home');
+          navigate('/Home?tab=remplissages');
         }).catch((err)=>{
           console.log(err.message)
         })
@@ -93,7 +91,7 @@ const ModifRemplissage = () => {
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px " }}>Date de création :</label>
-                                            <input value={date_de_creation} onChange={e=>setDate_de_creation(e.target.value)} className="form-control"></input>
+                                            <input value={date_de_creation}  className="form-control"></input>
                                             
                                         </div>
                                     </div>
@@ -101,7 +99,7 @@ const ModifRemplissage = () => {
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px " }}>Date de modification :</label>
-                                            <input value={date_de_modification} onChange={e=>setDate_de_modification(e.target.value)} className="form-control"></input>
+                                            <input value={date_de_modification}  className="form-control"></input>
                                             
                                         </div>
                                     </div>
