@@ -1,6 +1,8 @@
 import React from 'react'
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 
 const ModifRemplissage = () => {
@@ -13,11 +15,18 @@ const ModifRemplissage = () => {
     const[quantite,setQuantite]=useState("");
     const[unite_de_mesure,setUnite_de_mesure]=useState("");
     const[date_de_creation,setDate_de_creation]=useState("");
-    const date_de_modification = new Date().toUTCString;
     const[prix_dachat,setPrix_dachat]=useState("");
+
+
+    const dateActuelle = new Date();
+    const formatDateModification = format(dateActuelle, "dd MMMM yyyy HH:mm", { locale: fr });
+     const[date_de_modification, setDate_de_modification] = useState(formatDateModification);
+
     
     const navigate=useNavigate();
-
+     
+ 
+      
     useEffect(()=> {
         fetch(URL+'/'+rempid).then((res)=> {
             return res.json();
@@ -26,6 +35,10 @@ const ModifRemplissage = () => {
             setQuantite(resp.quantite) ;
             setUnite_de_mesure(resp.unite_de_mesure);
             setPrix_dachat(resp.prix_dachat);
+            setDate_de_creation(resp.date_de_creation);
+            const dateActuelle = new Date();
+           const formatDateModification = format(dateActuelle, "dd MMMM yyyy HH:mm", { locale: fr });
+           setDate_de_modification(formatDateModification);
         }).catch((err)=> {
             console.log(err.message)
         })
@@ -80,18 +93,21 @@ const ModifRemplissage = () => {
                                           
                                         </div>
                                     </div>
-                                    <div style={{ margin :"10px" }} className="col-lg-12">
-                                        <div className="form-group">
-                                            <label style={{ margin:"10px " }} >Unité de mesure :</label>
-                                            <input value={unite_de_mesure} onChange={e=>setUnite_de_mesure(e.target.value)} className="form-control"></input>
-                                          
-                                        </div>
+                                    <div style={{ margin: "10px" }} className="col-lg-12">
+                                      <div className="form-group">
+                                      <label style={{ margin: "10px " }}>Unité de mesure :</label>
+                                      <select value={unite_de_mesure} onChange={e => setUnite_de_mesure(e.target.value)} className="form-control">
+                                         <option value="">Sélectionnez une option</option>
+                                         <option value="Litre">Litre</option>
+                                         <option value="Mètre cube">Mètre cube</option>
+                                      </select>
+                                    </div>
                                     </div>
 
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px " }}>Date de création :</label>
-                                            <input value={date_de_creation}  className="form-control"></input>
+                                            <input value={date_de_creation} disabled className="form-control"></input>
                                             
                                         </div>
                                     </div>
@@ -99,7 +115,7 @@ const ModifRemplissage = () => {
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px " }}>Date de modification :</label>
-                                            <input value={date_de_modification}  className="form-control"></input>
+                                            <input value={date_de_modification} disabled className="form-control"></input>
                                             
                                         </div>
                                     </div>
@@ -116,7 +132,7 @@ const ModifRemplissage = () => {
                                     <div className="col-lg-12">
                                         <div className="form-group">
                                            <button className="btn btn-success" style={{  padding:"10px 20px" ,margin: "20px" }} type="submit"> Enregistrer </button>
-                                           <Link to="/Home" className="btn btn-danger" style={{ padding:"10px 20px" ,  margin: "20px" }} > Annuler</Link>
+                                           <Link to="/Home?tab=remplissages" className="btn btn-danger" style={{ padding:"10px 20px" ,  margin: "20px" }} > Annuler</Link>
                                         </div>
                                     </div>
 

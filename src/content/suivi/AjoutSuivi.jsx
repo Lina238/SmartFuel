@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 
 const AjoutSuivi = () => {
@@ -13,11 +15,27 @@ const AjoutSuivi = () => {
     const[quantite,setQuantite]=useState("");
     const[espace_libre,setEspace_libre]=useState("");
     const[user_opperation,setUser_opperation]=useState("");
-    const[date_de_creation,setDate_de_creation]=useState("");
-    const[date_de_modification,setDate_de_modification]=useState("");
     const[montant_actuel,setMontant_actuel]=useState("");
     
+    const dateActuelle = new Date();
+    const formatDateCreation = format(dateActuelle, "dd MMMM yyyy HH:mm", { locale: fr });
+    const[date_de_creation, setDate_de_creation] = useState(formatDateCreation);
+    const[date_de_modification,setDate_de_modification]=useState(formatDateCreation);
    
+    const formatDate = (date) => {
+        const options = {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+          timeZone: 'Africa/Algiers',
+        };
+    
+        return new Intl.DateTimeFormat('fr-FR', options).format(date);
+      };
     
     const navigate=useNavigate();
 
@@ -25,7 +43,7 @@ const AjoutSuivi = () => {
 
     const handlesubmit=(e)=>{
       e.preventDefault();
-      const suivData={nom,compteur_actuel,compteur_final,quantite,espace_libre,user_opperation,date_de_creation,date_de_modification,montant_actuel};
+      const suivData={nom,compteur_actuel,compteur_final,quantite,espace_libre,user_opperation,date_de_creation,date_de_modification :date_de_creation,montant_actuel};
       
 
       fetch(URL,{
@@ -103,14 +121,14 @@ const AjoutSuivi = () => {
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px " }}>Date de création :</label>
-                                            <input value={date_de_creation} onChange={e=>setDate_de_creation(e.target.value)} className="form-control"></input>
+                                            <input value={date_de_creation} disabled onChange={e=>setDate_de_creation(e.target.value)} className="form-control"></input>
                                             
                                         </div>
                                     </div>
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px " }}>Date de modification :</label>
-                                            <input value={date_de_modification} onChange={e=>setDate_de_modification(e.target.value)} className="form-control"></input>
+                                            <input value={date_de_modification} disabled onChange={e=>setDate_de_modification(e.target.value)} className="form-control"></input>
                                             
                                         </div>
                                     </div>
@@ -127,7 +145,7 @@ const AjoutSuivi = () => {
                                     <div className="col-lg-12">
                                         <div className="form-group">
                                            <button className="btn btn-success" style={{  padding:"10px 20px" ,margin: "20px" }} type="submit"> Enregistrer </button>
-                                           <Link to="/Home" className="btn btn-danger" style={{ padding:"10px 20px" ,  margin: "20px" }} > Annuler</Link>
+                                           <Link to="/Home?tab=suivi" className="btn btn-danger" style={{ padding:"10px 20px" ,  margin: "20px" }} > Annuler</Link>
                                         </div>
                                     </div>
 

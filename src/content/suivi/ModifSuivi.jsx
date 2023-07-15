@@ -1,7 +1,8 @@
 import React from 'react'
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 const ModifSuivi = () => {
     const URL = "http://localhost:8000/Suivi" ;
@@ -14,10 +15,11 @@ const ModifSuivi = () => {
     const[quantite,setQuantite]=useState("");
     const[espace_libre,setEspace_libre]=useState("");
     const[user_opperation,setUser_opperation]=useState("");
-    const[date_de_creation,setDate_de_creation]=useState("");
-    const[date_de_modification,setDate_de_modification]=useState("");
     const[montant_actuel,setMontant_actuel]=useState("");
-    
+    const[date_de_creation,setDate_de_creation]=useState("");
+    const dateActuelle = new Date();
+    const formatDateModification = format(dateActuelle, "dd MMMM yyyy HH:mm", { locale: fr });
+     const[date_de_modification, setDate_de_modification] = useState(formatDateModification);
     const navigate=useNavigate();
 
     useEffect(()=> {
@@ -30,8 +32,10 @@ const ModifSuivi = () => {
             setQuantite(resp.quantite);
             setEspace_libre(resp.espace_libre);
             setUser_opperation(resp.user_opperation);
-            setDate_de_creation(resp.setDate_de_creation);
-            setDate_de_modification(resp.setDate_de_modification);
+            setDate_de_creation(resp.date_de_creation);
+            const dateActuelle = new Date();
+           const formatDateModification = format(dateActuelle, "dd MMMM yyyy HH:mm", { locale: fr });
+           setDate_de_modification(formatDateModification);
             setMontant_actuel(resp.setMontant_actuel);
             
         }).catch((err)=> {
@@ -121,14 +125,14 @@ const ModifSuivi = () => {
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px " }}>Date de création :</label>
-                                            <input value={date_de_creation} onChange={e=>setDate_de_creation(e.target.value)} className="form-control"></input>
+                                            <input value={date_de_creation} disabled onChange={e=>setDate_de_creation(e.target.value)} className="form-control"></input>
                                             
                                         </div>
                                     </div>
                                     <div style={{ margin :"10px" }} className="col-lg-12">
                                         <div className="form-group">
                                             <label style={{ margin:"10px " }}>Date de modification :</label>
-                                            <input value={date_de_modification} onChange={e=>setDate_de_modification(e.target.value)} className="form-control"></input>
+                                            <input value={date_de_modification} disabled onChange={e=>setDate_de_modification(e.target.value)} className="form-control"></input>
                                             
                                         </div>
                                     </div>
@@ -145,7 +149,7 @@ const ModifSuivi = () => {
                                     <div className="col-lg-12">
                                         <div className="form-group">
                                            <button className="btn btn-success" style={{  padding:"10px 20px" ,margin: "20px" }} type="submit"> Enregistrer </button>
-                                           <Link to="/Home" className="btn btn-danger" style={{ padding:"10px 20px" ,  margin: "20px" }} > Annuler</Link>
+                                           <Link to="/Home?tab=suivi" className="btn btn-danger" style={{ padding:"10px 20px" ,  margin: "20px" }} > Annuler</Link>
                                         </div>
                                     </div>
 

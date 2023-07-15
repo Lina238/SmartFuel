@@ -130,7 +130,7 @@ const AjoutEmployee = () => {
                                     <div className="col-lg-12">
                                         <div className="form-group">
                                            <button className="btn btn-success" style={{  padding:"10px 20px" ,margin: "20px" }} type="submit"> Enregistrer </button>
-                                           <Link to="/Home" className="btn btn-danger" style={{ padding:"10px 20px" ,  margin: "20px" }} > Annuler</Link>
+                                           <Link to="/Home?tab=employés" className="btn btn-danger" style={{ padding:"10px 20px" ,  margin: "20px" }} > Annuler</Link>
                                         </div>
                                     </div>
 

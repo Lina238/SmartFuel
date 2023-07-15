@@ -26,34 +26,47 @@
   ],
   "Remplissages": [
     {
-      "nom": "dist C",
-      "quantite": "45",
-      "unite_de_mesure": "L",
-      "date_de_creation": "454",
-      "date_de_modification": "741",
-      "prix_dachat": "50da",
-      "id": 1
+      "nom": "disttt",
+      "quantite": "zzzz",
+      "unite_de_mesure": "zz",
+      "date_de_creation": "15 juillet 2023 23:46",
+      "date_de_modification": "15 juillet 2023 23:46",
+      "prix_dachat": "100Da",
+      "id": 6
     },
     {
-      "nom": "ff",
-      "quantite": "eez",
-      "unite_de_mesure": "aa",
-      "date_de_creation": "gg",
-      "date_de_modification": "efe",
-      "prix_dachat": "ss",
-      "id": 2
+      "nom": "efef",
+      "quantite": "fefffe",
+      "unite_de_mesure": "efefe",
+      "date_de_creation": "15 juillet 2023 23:50",
+      "date_de_modification": "15 juillet 2023 23:50",
+      "prix_dachat": "100Da",
+      "id": 7
     },
     {
-      "nom": "vsvss",
-      "quantite": "ssq",
-      "unite_de_mesure": "aaa",
-      "date_de_creation": "Wed, 12 Jul 2023 17:24:38 GMT",
-      "date_de_modification": "Wed, 12 Jul 2023 17:24:38 GMT",
-      "prix_dachat": "500Da",
-      "id": 4
+      "nom": "Dist A",
+      "quantite": "1500",
+      "unite_de_mesure": "Litre",
+      "date_de_creation": "15 juillet 2023 23:53",
+      "date_de_modification": "15 juillet 2023 23:54",
+      "prix_dachat": "100Da",
+      "id": 8
     }
   ],
-  "Suivi": [],
+  "Suivi": [
+    {
+      "nom": "dist A",
+      "compteur_actuel": "1452",
+      "compteur_final": "151515",
+      "quantite": "",
+      "espace_libre": "",
+      "user_opperation": "",
+      "date_de_creation": "16 juillet 2023 00:02",
+      "date_de_modification": "16 juillet 2023 00:02",
+      "montant_actuel": "",
+      "id": 1
+    }
+  ],
   "Chefs": [
     {
       "id": 1,
