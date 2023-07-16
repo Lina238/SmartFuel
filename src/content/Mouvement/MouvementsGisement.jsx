@@ -1,4 +1,5 @@
-import React, { Component, useState , useEffect } from 'react'
+import React, { Component, useState , useEffect,useRef } from 'react'
+import { Button } from 'antd';
 
 
 
@@ -17,12 +18,22 @@ const MouvementsGisement = () => {
     })
 }, [])
 
+const tableRef = useRef();
+
+  const handlePrint = () => {
+    if (tableRef && tableRef.current) {
+      window.print();
+    }
+  };
+
   return (
     <div style={{ margin: '20px' }}>   
- 
+     <Button type="primary" onClick={handlePrint} style={{ marginBottom: '10px' }}>
+        Imprimer la table
+      </Button>
 
     <br></br>
-    <div style={{ height: '400px', overflow: 'auto' }}>
+    <div ref={tableRef}  style={{ height: '400px', overflow: 'auto' }}>
       <table className = "table table-striped table-bordered rounded"  style={{ fontFamily: 'Poppins, sans-serif',borderRadius: '4px 2px 4px',
       fontSize: '14px', width:"150vh", border:'2px solid #ffffff' }}> 
      <thead style ={{backgroundColor :'#A0A0A0' }} >
