@@ -2,6 +2,7 @@ package com.example.SmartFuel.rest.models;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import  javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name="mouvement_gisement")
 public class mouvement_gisement {
@@ -19,7 +25,13 @@ public class mouvement_gisement {
 	@JoinColumn(name = "id_gisement_distributeur")   
 	distributeur_gisement id_gisement_distributeur;
 	Boolean TYPE;
+	@CreationTimestamp
+	@Column(name = "date_de_creation")
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	LocalDateTime date_de_creation;
+	@UpdateTimestamp
+	@Column(name = "date_de_modification")
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	LocalDateTime date_de_modification;
 	Double quantite;
 	public Integer getId() {

@@ -1,9 +1,13 @@
 package com.example.SmartFuel.rest.repository;
+import java.io.Serializable;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import com.example.SmartFuel.rest.models.Personnel;
+
 //cafeinecash 
 // la table dis_gis : 
 //quantite=compteur_finale-compteur_actuel
@@ -11,6 +15,8 @@ import com.example.SmartFuel.rest.models.Personnel;
 //react table component(material ui)
 //chakra for table
 //SQL TRANSACTION 
-public interface SmartFuelRepository extends CrudRepository<Personnel,Integer>   {
-	Optional<Personnel> findByNom(String nom);
+@Repository
+public interface SmartFuelRepository extends  JpaRepository<Personnel, Integer>   {
+	Optional<Personnel> findByUsername(String username);
+
 }

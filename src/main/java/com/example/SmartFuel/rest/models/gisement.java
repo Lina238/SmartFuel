@@ -6,9 +6,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
 
 
 
@@ -18,14 +24,30 @@ public class gisement {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)	
 Integer id;
+@NotNull
+@NotEmpty
 String nom;
+@NotNull
+@NotEmpty
 Double capacite_totale;
+@NotNull
+@NotEmpty
 Double seuil;
+@NotNull
+@NotEmpty
 Double quantite_actuelle;
+@JsonIgnore
 @ManyToOne
-@JsonBackReference 
+@JsonManagedReference("type")
 @JoinColumn(name = "type_gisement")
 type_gisement type_gisement;
+Double espace_libre;
+public Double getEspace_libre() {
+	return espace_libre;
+}
+public void setEspace_libre(Double espace_libre) {
+	this.espace_libre = espace_libre;
+}
 
 public Integer getId() {
 	return id;
@@ -65,7 +87,7 @@ public void setType_gisement(type_gisement type_gisement) {
 }
 
 public gisement(Integer id, String nom, Double capacite_totale, Double seuil, Double quantite_actuelle,
-		com.example.SmartFuel.rest.models.type_gisement type_gisement) {
+		com.example.SmartFuel.rest.models.type_gisement type_gisement,Double e) {
 	super();
 	this.id = id;
 	this.nom = nom;
@@ -73,7 +95,7 @@ public gisement(Integer id, String nom, Double capacite_totale, Double seuil, Do
 	this.seuil = seuil;
 	this.quantite_actuelle = quantite_actuelle;
 	this.type_gisement = type_gisement;
-
+  this.espace_libre=e;
 }
 
 public gisement() {

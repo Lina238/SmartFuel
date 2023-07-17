@@ -3,6 +3,7 @@ package com.example.SmartFuel.rest.models;
 import java.time.LocalDateTime;
 
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,27 +12,40 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
 @Entity
 @Table(name="table_dachat")
 public class table_dachat {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 Integer id;
+	   @NotNull
+	    @NotEmpty
 Double quantite;
-	Double prix_dachat;
+	   @NotNull
+	    @NotEmpty
+Double prix_dachat;
 @ManyToOne
-@JsonBackReference("distributeur-gisement-dachat")
+@JsonBackReference("table-dachat-distributeur-gisement")
 @JoinColumn(name = "id_gisement_distributeur")
 distributeur_gisement id_gisement_distributeur;
 @CreationTimestamp
+@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 @Column(name = "date_de_creation")
 LocalDateTime date_de_creation;
 @UpdateTimestamp
 @Column(name = "date_de_modification")
+@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 LocalDateTime date_de_modification;
+@NotNull
+@NotEmpty
 String unite_de_mesure;
 public Integer getId() {
 	return id;

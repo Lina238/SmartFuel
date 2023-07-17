@@ -4,12 +4,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import com.sun.istack.NotNull;
 @Entity
 @Table(name="distributeur ")
 public class distributeur {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
+	   @NotNull
+	    @NotEmpty
 	String nom;
 	public distributeur() {
 	}

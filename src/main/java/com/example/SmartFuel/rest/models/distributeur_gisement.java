@@ -1,6 +1,7 @@
 package com.example.SmartFuel.rest.models;
 import java.util.List;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,32 +10,42 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
 @Entity
 @Table(name="distributeur_gisement")
 public class distributeur_gisement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer 	id_gisement_distributeur;
+	   @NotNull
+	    @NotEmpty
 	@OneToOne
-	@JoinColumn(name = "id_distributeur")   
-	distributeur id_distributeur;
-	@OneToOne
+	@JoinColumn(name = "iddistributeur")   
+	distributeur iddistributeur;
+
+	   @NotNull
+	    @NotEmpty
+	    @OneToOne
 	@JoinColumn(name = "idgisement")   
 	gisement idgisement;
-    @OneToMany(mappedBy = "id_gisement_distributeur")
-    @JsonManagedReference("distributeur-gisement-vente")
-    private List<table_de_vente> table_de_vente;
+	   @JsonManagedReference("distributeur-gisement-vente")
+	   @OneToMany(mappedBy = "id_gisement_distributeur")
+	   private List<table_de_vente> table_de_vente;
+
+	@JsonManagedReference("table-dachat-distributeur-gisement")
 	@OneToMany(mappedBy="id_gisement_distributeur")
-	  @JsonManagedReference("distributeur-gisement-dachat")
 	List <table_dachat> table_dachat;	
-	public distributeur_gisement(Integer id_gisement_distributeur, distributeur id_distributeur, gisement idgisement,
+	public distributeur_gisement(Integer id_gisement_distributeur, distributeur iddistributeur, gisement idgisement,
 			List<com.example.SmartFuel.rest.models.table_de_vente> table_de_vente,
 			List<com.example.SmartFuel.rest.models.table_dachat> table_dachat) {
 		super();
 		this.id_gisement_distributeur = id_gisement_distributeur;
-		this.id_distributeur = id_distributeur;
+		this.iddistributeur = iddistributeur;
 		this.idgisement = idgisement;
 		this.table_de_vente = table_de_vente;
 		this.table_dachat = table_dachat;
@@ -63,11 +74,11 @@ public class distributeur_gisement {
 	public distributeur_gisement() {
 	}
 	
-	public distributeur getId_distributeur() {
-		return id_distributeur;
+	public distributeur getiddistributeur() {
+		return iddistributeur;
 	}
-	public void setId_distributeur(distributeur id_distributeur) {
-		this.id_distributeur = id_distributeur;
+	public void setiddistributeur(distributeur iddistributeur) {
+		this.iddistributeur = iddistributeur;
 	}
 	public gisement  getIdgisement() {
 		return idgisement;
